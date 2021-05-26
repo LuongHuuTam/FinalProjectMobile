@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,9 +10,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.project.network.ApiClient;
-import com.example.project.network.LoginRequest;
-import com.example.project.network.LoginResponse;
+import com.example.project.R;
+import com.example.project.network.repositories.ApiClient;
+import com.example.project.network.login.LoginRequest;
+import com.example.project.network.models.LoginResponse;
 import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     AutoCompleteTextView roleSelector;
     TextInputEditText username,password;
     Button btnLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
