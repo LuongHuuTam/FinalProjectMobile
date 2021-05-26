@@ -33,6 +33,8 @@ namespace FeedbackApp.WebApi.Mapping
 
             CreateMap<Question, QuestionVm>();
             CreateMap<QuestionVm, Question>();
+
+            CreateMap<Feedback_Question, QuestionVm>(); 
         }
     }
 }

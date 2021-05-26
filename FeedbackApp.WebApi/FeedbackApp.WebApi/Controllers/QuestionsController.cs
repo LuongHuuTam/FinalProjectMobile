@@ -31,7 +31,7 @@ namespace FeedbackApp.WebApi.Controllers
             return Ok(await _questionService.GetAll(topicId));
         }
 
-        [HttpPost("{questionId}")]
+        [HttpGet("{questionId}")]
         public async Task<IActionResult> GetQuestionById(int questionId = 0)
         {
             return Ok(await _questionService.GetById(questionId));

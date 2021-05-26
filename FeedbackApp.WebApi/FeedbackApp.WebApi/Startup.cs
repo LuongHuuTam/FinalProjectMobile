@@ -17,6 +17,7 @@ namespace FeedbackApp.WebApi
 {
     public class Startup
     {
+        private readonly string _myAllowSpecificOrigins = "AllowSpecficOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,6 +28,19 @@ namespace FeedbackApp.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => {
+
+                options.AddPolicy(name: _myAllowSpecificOrigins,
+                    builder => {
+                        builder.WithOrigins("http://localhost:5000", "http://localhost:3000", "https://localhost:5001")
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .WithExposedHeaders("Content-Range");
+
+                    });
+            });
+
             services.AddDbContext<FeedbackAppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString(WConstants.MainConnectionString)));
 
@@ -40,7 +54,9 @@ namespace FeedbackApp.WebApi
             services.AddScoped<IAssignmentService, AssignmentService>();
             services.AddScoped<IQuestionService, QuestionService>();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -114,6 +130,7 @@ namespace FeedbackApp.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FeedbackApp.WebApi v1"));
             }
+            app.UseCors(_myAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
 
