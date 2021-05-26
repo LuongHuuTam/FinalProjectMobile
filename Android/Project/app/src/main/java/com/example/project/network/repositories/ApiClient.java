@@ -1,4 +1,6 @@
-package com.example.project.network;
+package com.example.project.network.repositories;
+
+import com.example.project.network.apis.LoginService;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

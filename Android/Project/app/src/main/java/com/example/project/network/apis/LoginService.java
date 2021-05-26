@@ -1,4 +1,7 @@
-package com.example.project.network;
+package com.example.project.network.apis;
+
+import com.example.project.network.login.LoginRequest;
+import com.example.project.network.models.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
