@@ -1,4 +1,4 @@
-package com.example.project.ui.gallery;
+package com.example.project.ui.contact;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,18 +13,18 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.project.R;
+import com.example.project.ui.enrollment.EnrollmentViewModel;
 
-public class GalleryFragment extends Fragment {
-
-    private GalleryViewModel galleryViewModel;
+public class ContactFragment extends Fragment {
+    private ContactViewModel contactViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        contactViewModel =
+                new ViewModelProvider(this).get(ContactViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_contact, container, false);
+        final TextView textView = root.findViewById(R.id.text_contact);
+        contactViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -2,11 +2,14 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
-
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorAccent">@color/white</item>
         <item name="android:statusBarColor">#00000000</item>
+    </style>
 
+    <style name="LogInText" parent="Theme.MaterialComponents.Light">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">70dp</item>
     </style>
 
 </resources>

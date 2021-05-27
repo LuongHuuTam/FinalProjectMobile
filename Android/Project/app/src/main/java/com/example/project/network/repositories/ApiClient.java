@@ -17,12 +17,13 @@ public class ApiClient {
         Retrofit retrofit;
         retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://localhost:5001/api/")
+                .baseUrl("http://10.0.2.2:5000/")
                 .client(okHttpClient)
                 .build();
 
         return retrofit;
     }
+
     public static LoginService getLoginService(){
         LoginService loginService = getRetrofit().create(LoginService.class);
 
