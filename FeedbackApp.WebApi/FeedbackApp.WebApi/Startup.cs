@@ -114,7 +114,11 @@ namespace FeedbackApp.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FeedbackApp.WebApi v1"));
             }
-
+<<<<<<< login
+=======
+           
+            app.UseCors(_myAllowSpecificOrigins);
+>>>>>>> master
 
             app.UseAuthentication();
 
