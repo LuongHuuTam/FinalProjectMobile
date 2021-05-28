@@ -1,4 +1,4 @@
-package com.example.project.network.repositories;
+package com.example.project.network;
 
 import com.example.project.network.apis.LoginService;
 
@@ -17,7 +17,7 @@ public class ApiClient {
         Retrofit retrofit;
         retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://10.0.2.2:5001/api/")
+                .baseUrl("http://10.0.2.2:5000/api/")
                 .client(okHttpClient)
                 .build();
 
