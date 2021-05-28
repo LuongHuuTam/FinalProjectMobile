@@ -115,7 +115,6 @@ namespace FeedbackApp.WebApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FeedbackApp.WebApi v1"));
             }
 
-            app.UseHttpsRedirection();
 
             app.UseAuthentication();
 

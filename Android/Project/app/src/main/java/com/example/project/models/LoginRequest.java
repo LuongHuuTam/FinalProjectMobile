@@ -1,4 +1,4 @@
-package com.example.project.network.models;
+package com.example.project.models;
 
 public class LoginRequest {
     private String username;

@@ -2,8 +2,9 @@ package com.example.project.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,9 +16,8 @@ import android.widget.Toast;
 
 import com.example.project.R;
 import com.example.project.network.repositories.ApiClient;
-import com.example.project.network.models.LoginRequest;
-import com.example.project.network.models.LoginResponse;
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.project.models.LoginRequest;
+import com.example.project.models.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,16 +72,30 @@ public class LoginActivity extends AppCompatActivity {
             default:
                 break;
         }
+
         LoginRequest loginRequest = new LoginRequest();
+
         loginRequest.setUsername(username.getText().toString());
         loginRequest.setPassword(password.getText().toString());
         loginRequest.setRole(roleValue);
+
         Call<LoginResponse> loginResponseCall = ApiClient.getLoginService().userLogin(loginRequest);
         loginResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful()){
                     Toast.makeText(LoginActivity.this,"Login successful",Toast.LENGTH_LONG).show();
+
+                    LoginResponse loginResponse = response.body();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(LoginActivity.this,
+                                    MainActivity.class).putExtra("data",loginResponse.getRole()));
+                        }
+                    },700);
+
                 }else{
                     Toast.makeText(LoginActivity.this,"Login failed",Toast.LENGTH_LONG).show();
                 }

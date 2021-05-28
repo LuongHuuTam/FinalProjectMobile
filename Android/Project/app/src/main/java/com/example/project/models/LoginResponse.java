@@ -1,4 +1,4 @@
-package com.example.project.network.models;
+package com.example.project.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -24,7 +24,7 @@ public class LoginResponse {
         return username;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public String getRole() {
+        return role;
     }
 }
