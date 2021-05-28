@@ -1,4 +1,4 @@
-package com.example.project.network.repositories;
+package com.example.project.network;
 
 import com.example.project.network.apis.LoginService;
 

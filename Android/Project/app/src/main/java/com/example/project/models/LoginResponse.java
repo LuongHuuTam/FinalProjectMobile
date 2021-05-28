@@ -27,4 +27,5 @@ public class LoginResponse {
     public String getRole() {
         return role;
     }
+
 }
