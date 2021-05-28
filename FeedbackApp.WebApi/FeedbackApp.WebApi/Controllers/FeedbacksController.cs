@@ -32,5 +32,33 @@ namespace FeedbackApp.WebApi.Controllers
         {
             return Ok(await _feedbackService.GetAll());
         }
+
+        [HttpGet("{feedbackId}")]
+        public async Task<IActionResult> GetById(int feedbackId)
+        {
+            return Ok(await _feedbackService.GetById(feedbackId));
+        }
+
+        [HttpGet("typefeedback")]
+        public async Task<IActionResult> GetTypeFeedback()
+        {
+            return Ok(await _feedbackService.GetTypeFeedback());
+        }
+
+        [HttpPut("{feedbackId}")]
+        public async Task<IActionResult> Update(int feedbackId, [FromBody] FeedbackVm request)
+        {
+            if (await _feedbackService.Update(feedbackId, request))
+                return Ok();
+            return BadRequest("False");
+        }
+
+        [HttpDelete("{feedbackId}")]
+        public async Task<IActionResult> Delete(int feedbackId)
+        {
+            if (await _feedbackService.Delete(feedbackId))
+                return Ok();
+            return BadRequest("False");
+        }
     }
 }

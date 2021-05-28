@@ -10,9 +10,10 @@ namespace FeedbackApp.WebApi.Application.Interface
     public interface IFeedbackService
     {
         Task<List<FeedbackVm>> GetAll();
-
+        Task<List<TypeFeedback>> GetTypeFeedback();
         Task<FeedbackVm> GetById(int feedbackId);
-
+        Task<bool> Update(int feedbackId, FeedbackVm request);
         Task<bool> Add(FeedbackVm request);
+        Task<bool> Delete(int feedbackId);
     }
 }
