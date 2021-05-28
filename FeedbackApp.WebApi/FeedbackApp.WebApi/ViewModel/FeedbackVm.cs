@@ -13,7 +13,6 @@ namespace FeedbackApp.WebApi.ViewModel
         public string AdminID { set; get; }
         public int TypeFeedbackID { set; get; }
         public string TypeFeedbackName { set; get; }
-        public List<QuestionVm> Questions { set; get; } = new List<QuestionVm>();
-        
+        public List<QuestionVm> Questions { set; get; } = new List<QuestionVm>();        
     }
 }

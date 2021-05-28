@@ -46,7 +46,7 @@ namespace FeedbackApp.WebApi.Application.Implementation
             feedback.IsDeleted = true;
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();                
                 return true;
             }
             catch
@@ -58,6 +58,7 @@ namespace FeedbackApp.WebApi.Application.Implementation
         public async Task<List<FeedbackVm>> GetAll()
         {
             List<FeedbackVm> res = new List<FeedbackVm>();
+
             var data = await _context.Feedbacks.Where(x => x.IsDeleted == false).Include(x => x.TypeFeedback).ToListAsync();
             res = _mapper.Map<List<FeedbackVm>>(data);
             return res;

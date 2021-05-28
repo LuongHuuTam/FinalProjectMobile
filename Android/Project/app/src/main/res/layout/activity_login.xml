@@ -1,43 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="30dp"
-    tools:context=".LoginActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="40dp"
+    tools:context=".ui.LoginActivity"
+    android:background="@color/primary_color">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/r2s" />
+
+    <TextView
+        android:id="@+id/login_text"
+        android:layout_below="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:text="Log In"
+        style="@style/LogInText"
+        android:textStyle="bold"
+        />
+
+
+    <EditText
+        android:inputType="text"
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:hint="Username"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_below="@id/login_text"
+        app:startIconTint="@color/primary_color"
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+       >
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </EditText>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="password"
         android:layout_below="@+id/username"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:inputType="textPassword"
+        >
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_password"
-            android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+    </EditText>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/menu"
@@ -58,12 +73,26 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btn_login"
+    <CheckBox
+        android:id="@+id/cb_remember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/menu"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="Remember Password"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cb_remember"
         android:layout_marginTop="20dp"
-        android:text="Login" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_background"
+        android:textColor="@color/primary_color"
+        android:textSize="30sp"
+        android:text="LOGIN" />
 
 </RelativeLayout>

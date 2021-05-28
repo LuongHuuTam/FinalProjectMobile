@@ -1,18 +1,22 @@
-package com.example.project;
+package com.example.project.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.project.network.ApiClient;
-import com.example.project.network.LoginRequest;
-import com.example.project.network.LoginResponse;
+import com.example.project.R;
+import com.example.project.network.repositories.ApiClient;
+import com.example.project.network.models.LoginRequest;
+import com.example.project.network.models.LoginResponse;
 import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
@@ -22,21 +26,23 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     AutoCompleteTextView roleSelector;
-    TextInputEditText username,password;
+    EditText username,password;
     Button btnLogin;
+    CheckBox remember;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        
         roleSelector = findViewById(R.id.role_selector);
         String []options = {"Admin","Trainer","Trainee"};
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,R.layout.list_item,options);
         roleSelector.setText(arrayAdapter.getItem(0).toString(),false);
         roleSelector.setAdapter(arrayAdapter);
 
-        username = findViewById(R.id.input_username);
-        password = findViewById(R.id.input_password);
+        username = findViewById(R.id.username);
+        password = findViewById(R.id.password);
         btnLogin = findViewById(R.id.btn_login);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {

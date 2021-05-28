@@ -1,4 +1,6 @@
-package com.example.project.network;
+package com.example.project.network.repositories;
+
+import com.example.project.network.apis.LoginService;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -15,12 +17,13 @@ public class ApiClient {
         Retrofit retrofit;
         retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://localhost:5001/api/")
+                .baseUrl("https://10.0.2.2:5001/api/")
                 .client(okHttpClient)
                 .build();
 
         return retrofit;
     }
+
     public static LoginService getLoginService(){
         LoginService loginService = getRetrofit().create(LoginService.class);
 
