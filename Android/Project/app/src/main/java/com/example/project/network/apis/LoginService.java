@@ -9,6 +9,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface LoginService {
-    @POST("api/Users/authenticate")
+    @POST("Users/authenticate")
     Call<LoginResponse> userLogin(@Body LoginRequest loginRequest);
 }
