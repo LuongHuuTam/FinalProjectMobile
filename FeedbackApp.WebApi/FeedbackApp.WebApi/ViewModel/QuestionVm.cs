@@ -9,7 +9,7 @@ namespace FeedbackApp.WebApi.ViewModel
     {
         public int TopicId { set; get; }
         public string TopicName { set; get; }
-        public int QuestionID { set; get; }
+        public int? QuestionID { set; get; }
         public string Content { set; get; }
     }
 }

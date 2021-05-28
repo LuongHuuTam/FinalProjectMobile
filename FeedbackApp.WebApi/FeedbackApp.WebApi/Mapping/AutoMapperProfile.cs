@@ -25,16 +25,22 @@ namespace FeedbackApp.WebApi.Mapping
             CreateMap<AssignmentRequest, Assignment>();
 
             CreateMap<Enrollment, TraineeVm>();
+            CreateMap<Enrollment, ClassVm>();
 
             CreateMap<Topic, TopicVm>();
 
+            CreateMap<Trainee, TraineeVm>();
             CreateMap<Trainee, UserVm>();
             CreateMap<Trainer, UserVm>();
 
             CreateMap<Question, QuestionVm>();
             CreateMap<QuestionVm, Question>();
 
-            CreateMap<Feedback_Question, QuestionVm>(); 
+
+            CreateMap<Feedback_Question, QuestionVm>();
+            CreateMap<QuestionVm, Feedback_Question>();
+
+            CreateMap<Enrollment, EnrollmentVm>();
         }
     }
 }

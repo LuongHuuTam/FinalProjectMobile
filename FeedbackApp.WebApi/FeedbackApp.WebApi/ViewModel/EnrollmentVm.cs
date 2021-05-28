@@ -11,5 +11,7 @@ namespace FeedbackApp.WebApi.ViewModel
         public string TraineeId { set; get; }
         public string ClassName { set; get; }
         public string TraineeName { set; get; }
+        public ClassVm Class { set; get; }
+        public TraineeVm Trainee { set; get; }
     }
 }

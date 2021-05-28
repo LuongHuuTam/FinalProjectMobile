@@ -29,7 +29,6 @@ namespace FeedbackApp.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options => {
-
                 options.AddPolicy(name: _myAllowSpecificOrigins,
                     builder => {
                         builder.WithOrigins("http://localhost:5000", "http://localhost:3000", "https://localhost:5001")
@@ -46,13 +45,14 @@ namespace FeedbackApp.WebApi
 
 
 
-            
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IModuleService, ModuleService>();
             services.AddScoped<IFeedbackService, FeedbackService>();
             services.AddScoped<IClassService, ClassService>();
             services.AddScoped<IAssignmentService, AssignmentService>();
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IEnrollmentService, EnrollmentService>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -130,9 +130,9 @@ namespace FeedbackApp.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FeedbackApp.WebApi v1"));
             }
-            app.UseCors(_myAllowSpecificOrigins);
 
-            app.UseHttpsRedirection();
+           
+            app.UseCors(_myAllowSpecificOrigins);
 
             app.UseAuthentication();
 
