@@ -2,6 +2,7 @@ package com.example.project.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -21,6 +22,7 @@ import com.example.project.models.LoginRequest;
 import com.example.project.models.LoginResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
 import com.example.project.ui.MainActivity;
+import com.example.project.ui.classes.ClassViewModel;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,9 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
-
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         //roleSelector setup options
         roleSelector = findViewById(R.id.role_selector);
         String[] options = {"Admin", "Trainer", "Trainee"};

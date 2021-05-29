@@ -1,19 +1,28 @@
 package com.example.project.ui.classes;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ClassViewModel extends ViewModel {
+import com.example.project.models.ClassResponse;
+import com.example.project.models.LoginRequest;
+import com.example.project.network.repositories.AppRepository;
 
-    private MutableLiveData<String> mText;
+import java.util.List;
+
+public class ClassViewModel extends ViewModel {
+    private AppRepository appRepository = new AppRepository();
+    private LiveData<List<ClassResponse>> classResponseLiveData;
 
     public ClassViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is Class fragment");
+        super();
+        classResponseLiveData = appRepository.getClassResponseLiveData();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<ClassResponse>> getClassResponseLiveData() {
+        return classResponseLiveData;
+    }
+
+    public void classes(String token){
+        appRepository.classes(token);
     }
 }
