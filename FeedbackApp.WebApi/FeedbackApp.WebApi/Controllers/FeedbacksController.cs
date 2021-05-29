@@ -60,5 +60,19 @@ namespace FeedbackApp.WebApi.Controllers
                 return Ok();
             return BadRequest("False");
         }
+
+        [HttpGet("dofeedback/{traineeId}")]
+        public async Task<IActionResult> GetDoFeedback(string traineeId)
+        {
+            return Ok(await _feedbackService.GetDoFeedBack(traineeId));
+        }
+
+        [HttpPost("answer")]
+        public async Task<IActionResult> AddAnswer([FromBody] AnswerRequest request)
+        {
+            if (await _feedbackService.AddAnswer(request))
+                return Ok();
+            return BadRequest("False");
+        }
     }
 }

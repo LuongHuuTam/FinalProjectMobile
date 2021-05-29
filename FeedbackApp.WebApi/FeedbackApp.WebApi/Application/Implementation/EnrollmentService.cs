@@ -55,11 +55,17 @@ namespace FeedbackApp.WebApi.Application.Implementation
                 ClassId = assignment.ClassId,
                 TraineeId = request.TraineeId
             };
-
-            _context.Trainee_Assignments.Add(ta);
-            _context.Enrollments.Add(enrollment);
-            await _context.SaveChangesAsync();
-            return null;
+            try
+            {
+                _context.Trainee_Assignments.Add(ta);
+                _context.Enrollments.Add(enrollment);
+                await _context.SaveChangesAsync();
+                return null;
+            }
+            catch
+            {
+                return "False";
+            }            
         }
 
         public async Task<bool> Update(EnrollmentVm request)

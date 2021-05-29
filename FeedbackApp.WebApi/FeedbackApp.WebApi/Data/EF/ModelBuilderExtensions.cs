@@ -31,8 +31,8 @@ namespace FeedbackApp.WebApi.Data.EF
                 );
 
             modelBuilder.Entity<TypeFeedback>().HasData(
-                new TypeFeedback() { TypeId = 1, Name = "InComplete" },
-                new TypeFeedback() { TypeId = 2, Name = "Complete" }
+                new TypeFeedback() { TypeId = 1, Name = "Online" },
+                new TypeFeedback() { TypeId = 2, Name = "Offline" }
                 );
         }
     }
