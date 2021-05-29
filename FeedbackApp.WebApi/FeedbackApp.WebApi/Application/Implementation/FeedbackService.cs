@@ -28,7 +28,29 @@ namespace FeedbackApp.WebApi.Application.Implementation
             try
             {
                 _context.Feedbacks.Add(feedback);
-                await _context.SaveChangesAsync();                
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> AddAnswer(AnswerRequest request)
+        {
+            Trainee_Comment trainee_Comment = _mapper.Map<Trainee_Comment>(request);
+            _context.Trainee_Comments.Add(trainee_Comment);
+            foreach (var item in request.Choses)
+            {
+                Answer answer = _mapper.Map<Answer>(request);
+                answer.QuestionID = item.QuestionId;
+                answer.Value = item.Answer;
+                _context.Answers.Add(answer);
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch
@@ -46,7 +68,7 @@ namespace FeedbackApp.WebApi.Application.Implementation
             feedback.IsDeleted = true;
             try
             {
-                await _context.SaveChangesAsync();                
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch
@@ -65,7 +87,7 @@ namespace FeedbackApp.WebApi.Application.Implementation
         }
 
         public async Task<FeedbackVm> GetById(int feedbackId)
-        {            
+        {
             var question = (from fb in _context.Feedbacks
                             join fbq in _context.Feedback_Questions on fb.FeedbackID equals fbq.FeedbackId
                             join q in _context.Questions on fbq.QuestionId equals q.QuestionID
@@ -92,6 +114,28 @@ namespace FeedbackApp.WebApi.Application.Implementation
             return feedback;
         }
 
+        public async Task<List<DoFeedbackVm>> GetDoFeedBack(string traineeId)
+        {
+            List<DoFeedbackVm> data = new List<DoFeedbackVm>();
+            data = await (from erm in _context.Trainee_Assignments
+                          join agm in _context.Assignments on erm.RegistrationCode equals agm.RegistrationCode
+                          join cl in _context.Classes on agm.ClassId equals cl.ClassID
+                          join md in _context.Modules on agm.ModuleID equals md.ModuleID
+                          join fb in _context.Feedbacks on md.FeedbackID equals fb.FeedbackID
+                          where erm.TraineeId == traineeId
+                          select new DoFeedbackVm()
+                          {
+                              ClassID = cl.ClassID,
+                              ClassName = cl.Name,
+                              EndTime = md.EndTime,
+                              FeedbackTitle = fb.Title,
+                              ModuleId = md.ModuleID,
+                              ModuleName = md.Name,
+                              Status = _context.Answers.Any(x => x.ModuleID == md.ModuleID && x.TraineeID == traineeId && x.ClassId == cl.ClassID)
+                          }).ToListAsync();
+            return data;
+        }
+
         public async Task<List<TypeFeedback>> GetTypeFeedback()
         {
             return await _context.TypeFeedbacks.Where(x => x.IsDeleted == false).ToListAsync();
@@ -104,7 +148,7 @@ namespace FeedbackApp.WebApi.Application.Implementation
                 return false;
 
             List<Feedback_Question> feedback_Questions = _mapper.Map<List<Feedback_Question>>(request.Questions);
-            foreach(var item in feedback.Feedback_Questions)
+            foreach (var item in feedback.Feedback_Questions)
             {
                 _context.Feedback_Questions.Remove(item);
             }

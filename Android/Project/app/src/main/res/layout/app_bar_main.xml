@@ -7,28 +7,32 @@
     tools:context=".ui.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.Project.AppBarOverlay"
+        android:padding="5dp"
         android:backgroundTint="@color/primary_color"
-        >
+        android:theme="@style/Theme.Project.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/Theme.Project.PopupOverlay" />
+            android:backgroundTint="@color/primary_color"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            >
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/r2s"
+                android:layout_gravity="center"
+                android:contentDescription="toolbar logo" />
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main" />
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        android:layout_margin="@dimen/fab_margin"-->
-<!--        app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

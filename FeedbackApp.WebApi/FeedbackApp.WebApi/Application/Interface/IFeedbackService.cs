@@ -15,5 +15,8 @@ namespace FeedbackApp.WebApi.Application.Interface
         Task<bool> Update(int feedbackId, FeedbackVm request);
         Task<bool> Add(FeedbackVm request);
         Task<bool> Delete(int feedbackId);
+
+        Task<List<DoFeedbackVm>> GetDoFeedBack(string traineeId);
+        Task<bool> AddAnswer(AnswerRequest request);
     }
 }

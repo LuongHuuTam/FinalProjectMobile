@@ -61,8 +61,8 @@ namespace FeedbackApp.WebApi.Migrations
                     b.Property<string>("TraineeID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClassId", "ModuleID", "QuestionID", "TraineeID");
 
@@ -447,13 +447,13 @@ namespace FeedbackApp.WebApi.Migrations
                         {
                             TypeId = 1,
                             IsDeleted = false,
-                            Name = "InComplete"
+                            Name = "Online"
                         },
                         new
                         {
                             TypeId = 2,
                             IsDeleted = false,
-                            Name = "Complete"
+                            Name = "Offline"
                         });
                 });
 
