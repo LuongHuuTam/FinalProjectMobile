@@ -2,11 +2,9 @@ package com.example.project.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -23,7 +21,7 @@ import com.example.project.models.LoginRequest;
 import com.example.project.models.LoginResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
 import com.example.project.ui.MainActivity;
-import com.google.gson.Gson;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+
+        //roleSelector setup options
         roleSelector = findViewById(R.id.role_selector);
         String[] options = {"Admin", "Trainer", "Trainee"};
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.list_item, options);
@@ -52,8 +52,9 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getLoginResponseLiveData().observe(this, new Observer<LoginResponse>() {
             @Override
             public void onChanged(LoginResponse loginResponse) {
-                //store response object data
                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_LONG).show();
+
+                //set LoginResponse Object to sharePreference
                 SharedPreferencesManager.setLoginResponseValue(getApplicationContext(),loginResponse);
 
                 new Handler().postDelayed(new Runnable() {
@@ -69,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getLoginFailureLiveData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                Toast.makeText(LoginActivity.this, "Throwable " + s, Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this,s, Toast.LENGTH_LONG).show();
             }
         });
 

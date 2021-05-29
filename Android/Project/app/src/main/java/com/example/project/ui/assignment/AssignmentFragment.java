@@ -23,7 +23,7 @@ public class AssignmentFragment extends Fragment {
         assignmentViewModel =
                 new ViewModelProvider(this).get(AssignmentViewModel.class);
         View root = inflater.inflate(R.layout.fragment_assignment, container, false);
-        final TextView textView = root.findViewById(R.id.text_assigment);
+        final TextView textView = root.findViewById(R.id.text_assignment);
         assignmentViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
