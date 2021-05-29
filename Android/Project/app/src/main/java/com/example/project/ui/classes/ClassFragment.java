@@ -36,12 +36,17 @@ public class ClassFragment extends Fragment {
         classViewModel = new ViewModelProvider(this).get(ClassViewModel.class);
         View root = inflater.inflate(R.layout.fragment_class, container, false);
 
+        //get token
         String token = "";
         if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
         }
+
+        //put token to Header
         classViewModel.classes(token);
         classAdapter = new ClassAdapter();
+
+        //
         classAdapter.setClassListener(new ClassAdapter.ClassListener() {
             @Override
             public void onDelete(int id) {
