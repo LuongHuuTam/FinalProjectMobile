@@ -53,6 +53,9 @@ namespace FeedbackApp.WebApi
             services.AddScoped<IAssignmentService, AssignmentService>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IEnrollmentService, EnrollmentService>();
+            services.AddScoped<IStatisticService, StatisticService>();
+
+
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

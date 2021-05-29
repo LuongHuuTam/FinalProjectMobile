@@ -11,7 +11,7 @@ namespace FeedbackApp.WebApi.Data.Entities
         public int ModuleID { set; get; }
         public string TraineeID { set; get; }
         public int QuestionID { set; get; }
-        public int Value { set; get; }
+        public string Value { set; get; }
 
         public Module Module { set; get; }
         public Class Class { set; get; }
