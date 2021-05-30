@@ -1,8 +1,36 @@
 package com.example.project.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Assignment {
-    private int classID, moduleID;
-    private String trainerID, moduleName, className, trainerName, registrationCode;
+    @SerializedName("classId")
+    @Expose
+    private int classID;
+
+    @SerializedName("moduleID")
+    @Expose
+    private int moduleID;
+
+    @SerializedName("trainerID")
+    @Expose
+    private String trainerID;
+
+    @SerializedName("moduleName")
+    @Expose
+    private String moduleName;
+
+    @SerializedName("className")
+    @Expose
+    private String className;
+
+    @SerializedName("trainerName")
+    @Expose
+    private String trainerName;
+
+    @SerializedName("registrationCode")
+    @Expose
+    private String registrationCode;
 
     public int getClassID() {
         return classID;
