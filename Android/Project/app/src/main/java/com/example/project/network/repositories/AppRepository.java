@@ -66,12 +66,17 @@ public class AppRepository {
                 .create(ClassService.class);
 
         assignmentService = new retrofit2.Retrofit.Builder()
-        enrollmentService = new retrofit2.Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(AssignmentService.class);
+
+        enrollmentService = new retrofit2.Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
                 .create(EnrollmentService.class);
     }
 
@@ -123,17 +128,6 @@ public class AppRepository {
         return classResponseLiveData;
     }
 
-    public void assignments(String token)
-    {
-        assignmentService.getAssignment("Bearer" + token).enqueue(new Callback<List<Assignment>>() {
-            @Override
-            public void onResponse(Call<List<Assignment>> call, Response<List<Assignment>> response) {
-                if(response.body()!=null)
-                {
-                    assignmentResponseLiveData.postValue(response.body());
-                }
-                else{
-                    assignmentResponseLiveData.postValue(new ArrayList<>());
     public void trainertraineeclass(String token,String role, String username){
         classService.getTrainerTraineeCLass("Bearer " + token, role, username).enqueue(new Callback<List<ClassResponse>>() {
             @Override
@@ -151,7 +145,8 @@ public class AppRepository {
             }
         });
 
-    }public MutableLiveData<List<ClassResponse>> getTrainerClassResponseLiveData() {
+    }
+    public MutableLiveData<List<ClassResponse>> getTrainerClassResponseLiveData() {
         return trainerTraineeClassResponseLiveData;
     }
 
@@ -159,24 +154,46 @@ public class AppRepository {
         enrollmentService.getEnrollment("Bearer "+token).enqueue(new Callback<List<EnrollmentResponse>>() {
             @Override
             public void onResponse(Call<List<EnrollmentResponse>> call, Response<List<EnrollmentResponse>> response) {
-                if(response.body()!=null){
+                if (response.body() != null) {
                     enrollmentResponseLiveData.postValue(response.body());
-                }else{
+                } else {
                     enrollmentResponseLiveData.postValue(new ArrayList<>());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Assignment>> call, Throwable t) {
             public void onFailure(Call<List<EnrollmentResponse>> call, Throwable t) {
+            }
+        });
+    }
+
+    public MutableLiveData<List<EnrollmentResponse>> getEnrollmentResponseLiveData() {
+        return enrollmentResponseLiveData;
+    }
+
+    public void assignments(String token)
+    {
+        assignmentService.getAssignment("Bearer" + token).enqueue(new Callback<List<Assignment>>() {
+            @Override
+            public void onResponse(Call<List<Assignment>> call, Response<List<Assignment>> response) {
+                if(response.body()!=null)
+                {
+                    assignmentResponseLiveData.postValue(response.body());
+                }
+                else{
+                    assignmentResponseLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Assignment>> call, Throwable t) {
+
             }
         });
     }
     public MutableLiveData<List<Assignment>> getAssignmentLiveData(){
         return assignmentResponseLiveData;
-
-    public MutableLiveData<List<EnrollmentResponse>> getEnrollmentResponseLiveData() {
-        return enrollmentResponseLiveData;
     }
 }
+
 
