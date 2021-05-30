@@ -135,8 +135,8 @@ public class AppRepository {
         return trainerTraineeClassResponseLiveData;
     }
 
-    public void  enrollments(String token){
-        enrollmentService.getEnrollment("Bearer "+token).enqueue(new Callback<List<EnrollmentResponse>>() {
+    public void  enrollments(String token,int classId){
+        enrollmentService.getEnrollment("Bearer "+token, classId).enqueue(new Callback<List<EnrollmentResponse>>() {
             @Override
             public void onResponse(Call<List<EnrollmentResponse>> call, Response<List<EnrollmentResponse>> response) {
                 if(response.body()!=null){

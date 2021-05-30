@@ -108,8 +108,8 @@
     </LinearLayout>
     <ImageButton
         android:id="@+id/e_btn_detail"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/button_circle_detail"
         app:layout_constraintTop_toTopOf="@id/layout_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,8 +118,8 @@
         />
     <ImageButton
         android:id="@+id/e_btn_edit"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/button_circle_edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/e_btn_detail"
@@ -129,8 +129,8 @@
         />
     <ImageButton
         android:id="@+id/e_btn_delete"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/button_circle_delete"
         app:layout_constraintTop_toBottomOf="@+id/e_btn_edit"
         app:layout_constraintEnd_toEndOf="parent"
