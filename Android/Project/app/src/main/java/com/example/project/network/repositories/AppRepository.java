@@ -25,6 +25,7 @@ public class AppRepository {
     private ClassService classService;
 
     private MutableLiveData<List<ClassResponse>> classResponseLiveData;
+    private MutableLiveData<List<ClassResponse>> trainerTraineeClassResponseLiveData;
 
     private MutableLiveData<LoginResponse> loginResponseLiveData;
     private MutableLiveData<String> loginFailureLiveData;
@@ -33,6 +34,7 @@ public class AppRepository {
         loginResponseLiveData = new MutableLiveData<>();
         loginFailureLiveData = new MutableLiveData<>();
         classResponseLiveData = new MutableLiveData<>();
+        trainerTraineeClassResponseLiveData = new MutableLiveData<>();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -97,8 +99,31 @@ public class AppRepository {
         });
     }
 
+
+    public void trainertraineeclass(String token,String role, String username){
+        classService.getTrainerTraineeCLass("Bearer " + token, role, username).enqueue(new Callback<List<ClassResponse>>() {
+            @Override
+            public void onResponse(Call<List<ClassResponse>> call, Response<List<ClassResponse>> response) {
+                if(response.body()!=null){
+                    trainerTraineeClassResponseLiveData.postValue(response.body());
+                }else{
+                    trainerTraineeClassResponseLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ClassResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
     public MutableLiveData<List<ClassResponse>> getClassResponseLiveData() {
         return classResponseLiveData;
+    }
+
+    public MutableLiveData<List<ClassResponse>> getTrainerClassResponseLiveData() {
+        return trainerTraineeClassResponseLiveData;
     }
 }
 

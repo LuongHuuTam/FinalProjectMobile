@@ -62,11 +62,12 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         }
 
         public void bind(ClassResponse classResponse) {
+
             classID.setText(Integer.toString(classResponse.getClassID()));
             className.setText(classResponse.getName());
             capacity.setText(Integer.toString(classResponse.getCapacity()));
-            startDate.setText(classResponse.getStartTime());
-            endDate.setText(classResponse.getEndTime());
+            startDate.setText(classResponse.getStartTime().substring(0,10));
+            endDate.setText(classResponse.getEndTime().substring(0,10));
 
             buttonEdit.setOnClickListener(view -> {
 
@@ -82,7 +83,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
 
     public void setClassResponseList(List<ClassResponse> classResponseList) {
         this.classResponseList = classResponseList;
-
         notifyDataSetChanged();
     }
     public interface ClassListener{
