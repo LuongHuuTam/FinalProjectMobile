@@ -22,7 +22,15 @@
         android:id="@+id/nav_class"
         android:name="com.example.project.ui.classes.ClassFragment"
         android:label="Class"
-        tools:layout="@layout/fragment_class" />
+        tools:layout="@layout/fragment_class" >
+        <action
+            android:id="@+id/action_nav_class_to_class_addClass"
+            app:destination="@id/class_addClass" />
+    </fragment>
+    <fragment android:id="@+id/class_addClass"
+        android:name="com.example.project.ui.classes.AddClassFragment"
+        android:label="Add Class"
+        tools:layout="@layout/fragment_class_add_class"/>
     <fragment
         android:id="@+id/nav_module"
         android:name="com.example.project.ui.module.ModuleFragment"

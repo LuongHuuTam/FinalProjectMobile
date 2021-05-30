@@ -45,6 +45,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         public TextView capacity;
         public TextView startDate;
         public TextView endDate;
+        public ImageButton buttonAdd;
         public ImageButton buttonEdit;
         public ImageButton buttonDelete;
 
@@ -85,6 +86,11 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         this.classResponseList = classResponseList;
         notifyDataSetChanged();
     }
+
+    public List<ClassResponse> getClassResponseList() {
+        return classResponseList;
+    }
+
     public interface ClassListener{
         void onDelete(int id);
     }

@@ -24,6 +24,7 @@
             android:text="Class List"
             android:layout_marginEnd="10dp"/>
         <ImageButton
+            android:id="@+id/btn_add"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:background="@drawable/button_circle_add"
