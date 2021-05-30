@@ -1,19 +1,28 @@
 package com.example.project.ui.enrollment;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.project.models.EnrollmentResponse;
+import com.example.project.network.repositories.AppRepository;
+
+import java.util.List;
 
 
 public class EnrollmentViewModel extends ViewModel {
-    private MutableLiveData<String> mText;
+    private AppRepository appRepository = new AppRepository();
+    private LiveData<List<EnrollmentResponse>> enrollmentResponseLiveData;
 
     public EnrollmentViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is enrollment fragment");
+        super();
+        enrollmentResponseLiveData=appRepository.getEnrollmentResponseLiveData();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<EnrollmentResponse>> getEnrollmentResponseLiveData() {
+        return enrollmentResponseLiveData;
+    }
+
+    public void enrollments(String token){
+        appRepository.enrollments(token);
     }
 }
