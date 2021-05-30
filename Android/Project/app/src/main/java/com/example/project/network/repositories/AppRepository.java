@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.project.models.ClassResponse;
+import com.example.project.models.EnrollmentResponse;
 import com.example.project.models.LoginRequest;
 import com.example.project.models.LoginResponse;
 import com.example.project.network.apis.ClassService;
+import com.example.project.network.apis.EnrollmentService;
 import com.example.project.network.apis.LoginService;
 
 import java.util.ArrayList;
@@ -23,16 +25,19 @@ public class AppRepository {
     private static final String BASE_URL = "http://10.0.2.2:5000/api/";
     private LoginService loginService;
     private ClassService classService;
+    private EnrollmentService enrollmentService;
 
     private MutableLiveData<List<ClassResponse>> classResponseLiveData;
 
     private MutableLiveData<LoginResponse> loginResponseLiveData;
     private MutableLiveData<String> loginFailureLiveData;
+    private MutableLiveData<List<EnrollmentResponse>> enrollmentResponseLiveData;
 
     public AppRepository() {
         loginResponseLiveData = new MutableLiveData<>();
         loginFailureLiveData = new MutableLiveData<>();
         classResponseLiveData = new MutableLiveData<>();
+        enrollmentResponseLiveData =new MutableLiveData<>();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -52,6 +57,12 @@ public class AppRepository {
                 .build()
                 .create(ClassService.class);
 
+        enrollmentService = new retrofit2.Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(EnrollmentService.class);
     }
 
     public void login(LoginRequest loginRequest){
@@ -99,6 +110,29 @@ public class AppRepository {
 
     public MutableLiveData<List<ClassResponse>> getClassResponseLiveData() {
         return classResponseLiveData;
+    }
+
+
+    public void  enrollments(String token){
+        enrollmentService.getEnrollment("Bearer "+token).enqueue(new Callback<List<EnrollmentResponse>>() {
+            @Override
+            public void onResponse(Call<List<EnrollmentResponse>> call, Response<List<EnrollmentResponse>> response) {
+                if(response.body()!=null){
+                    enrollmentResponseLiveData.postValue(response.body());
+                }else{
+                    enrollmentResponseLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<EnrollmentResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public MutableLiveData<List<EnrollmentResponse>> getEnrollmentResponseLiveData() {
+        return enrollmentResponseLiveData;
     }
 }
 
