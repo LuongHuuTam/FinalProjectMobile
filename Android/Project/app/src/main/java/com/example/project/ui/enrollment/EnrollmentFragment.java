@@ -4,51 +4,32 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.adapters.EnrollmentAdapter;
-import com.example.project.models.EnrollmentResponse;
-import com.example.project.sharepreference.SharedPreferencesManager;
-
-import java.util.List;
+import com.example.project.ui.module.ModuleViewModel;
 
 public class EnrollmentFragment extends Fragment {
 
     private EnrollmentViewModel enrollmentViewModel;
-    private EnrollmentAdapter enrollmentAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         enrollmentViewModel =
                 new ViewModelProvider(this).get(EnrollmentViewModel.class);
         View root = inflater.inflate(R.layout.fragment_enrollment, container, false);
-
-
-        String token = "";
-        if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
-            token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
-        }
-        enrollmentViewModel.enrollments(token);
-        enrollmentAdapter=new EnrollmentAdapter();
-
-
-        enrollmentAdapter.setEnrollmentListener(new EnrollmentAdapter.EnrollmentListener() {
+        final TextView textView = root.findViewById(R.id.text_enrollment);
+        enrollmentViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onDelete(int id) {
-
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
             }
-        });
-        RecyclerView recyclerView = root.findViewById(R.id.rv_enrollmentList);
-        recyclerView.setAdapter(enrollmentAdapter);
-
-        enrollmentViewModel.getEnrollmentResponseLiveData().observe(getViewLifecycleOwner(), (Observer<List<EnrollmentResponse>>) enrollmentResponseList -> {
-            enrollmentAdapter.setEnrollmentResponsesList(enrollmentResponseList);
         });
         return root;
     }
