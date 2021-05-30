@@ -21,9 +21,13 @@ namespace FeedbackApp.WebApi.Application.Implementation
             _mapper = mapper;
         }
 
-        public async Task<List<EnrollmentVm>> GetAll()
+        public async Task<List<EnrollmentVm>> GetAll(int classId)
         {
-            var data = await _context.Enrollments.Include(x => x.Class).Include(x => x.Trainee).ToListAsync();
+            List<Enrollment> data = new List<Enrollment>();
+            if (classId == 0)
+                data = await _context.Enrollments.Include(x => x.Class).Include(x => x.Trainee).ToListAsync();
+            else
+                data = await _context.Enrollments.Include(x => x.Class).Include(x => x.Trainee).Where(x => x.ClassId == classId).ToListAsync();
             return _mapper.Map<List<EnrollmentVm>>(data);
         }
 

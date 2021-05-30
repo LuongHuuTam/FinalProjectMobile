@@ -8,7 +8,7 @@ namespace FeedbackApp.WebApi.Application.Interface
 {
     public interface IEnrollmentService
     {
-        Task<List<EnrollmentVm>> GetAll();
+        Task<List<EnrollmentVm>> GetAll(int classId);
         Task<EnrollmentVm> GetById(int classId, string traineeId);
         Task<bool> Update(EnrollmentVm request);
 

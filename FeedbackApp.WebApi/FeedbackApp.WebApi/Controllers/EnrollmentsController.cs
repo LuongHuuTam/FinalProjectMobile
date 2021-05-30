@@ -20,9 +20,9 @@ namespace FeedbackApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int classId = 0)
         {
-            return Ok(await _enrollmentService.GetAll());
+            return Ok(await _enrollmentService.GetAll(classId));
         }
 
         [HttpGet("{classId}/{traineeId}")]
