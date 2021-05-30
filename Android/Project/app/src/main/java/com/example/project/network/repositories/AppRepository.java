@@ -28,6 +28,7 @@ public class AppRepository {
     private EnrollmentService enrollmentService;
 
     private MutableLiveData<List<ClassResponse>> classResponseLiveData;
+    private MutableLiveData<List<ClassResponse>> trainerTraineeClassResponseLiveData;
 
     private MutableLiveData<LoginResponse> loginResponseLiveData;
     private MutableLiveData<String> loginFailureLiveData;
@@ -37,6 +38,7 @@ public class AppRepository {
         loginResponseLiveData = new MutableLiveData<>();
         loginFailureLiveData = new MutableLiveData<>();
         classResponseLiveData = new MutableLiveData<>();
+        trainerTraineeClassResponseLiveData = new MutableLiveData<>();
         enrollmentResponseLiveData =new MutableLiveData<>();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -112,7 +114,26 @@ public class AppRepository {
         return classResponseLiveData;
     }
 
+    public void trainertraineeclass(String token,String role, String username){
+        classService.getTrainerTraineeCLass("Bearer " + token, role, username).enqueue(new Callback<List<ClassResponse>>() {
+            @Override
+            public void onResponse(Call<List<ClassResponse>> call, Response<List<ClassResponse>> response) {
+                if(response.body()!=null){
+                    trainerTraineeClassResponseLiveData.postValue(response.body());
+                }else{
+                    trainerTraineeClassResponseLiveData.postValue(new ArrayList<>());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<ClassResponse>> call, Throwable t) {
+
+            }
+        });
+
+    }public MutableLiveData<List<ClassResponse>> getTrainerClassResponseLiveData() {
+        return trainerTraineeClassResponseLiveData;
+    }
     public void  enrollments(String token){
         enrollmentService.getEnrollment("Bearer "+token).enqueue(new Callback<List<EnrollmentResponse>>() {
             @Override
