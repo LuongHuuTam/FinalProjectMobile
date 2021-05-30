@@ -20,13 +20,7 @@ public class EnrollmentResponse {
     @Expose
     private String traineeName;
 
-    public int getClassID() {
-        return classId;
-    }
 
-    public void setClassID(int classId) {
-        this.classId = classId;
-    }
 
     public String getClassName() {
         return className;
@@ -50,5 +44,13 @@ public class EnrollmentResponse {
 
     public void setTraineeName(String traineeName) {
         this.traineeName = traineeName;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 }

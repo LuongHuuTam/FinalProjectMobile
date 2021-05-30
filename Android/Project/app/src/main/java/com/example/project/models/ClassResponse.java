@@ -75,4 +75,9 @@ public class ClassResponse {
     public void setEnrollmentsCount(int enrollmentsCount) {
         this.enrollmentsCount = enrollmentsCount;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

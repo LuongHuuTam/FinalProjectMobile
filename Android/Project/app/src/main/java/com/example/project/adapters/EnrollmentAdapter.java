@@ -65,7 +65,7 @@ public class EnrollmentAdapter extends RecyclerView.Adapter<EnrollmentAdapter.En
 
         @SuppressLint("SetTextI18n")
         public void bind(EnrollmentResponse enrollmentResponse) {
-            classID.setText(Integer.toString(enrollmentResponse.getClassID()));
+            classID.setText(Integer.toString(enrollmentResponse.getClassId()));
             className.setText(enrollmentResponse.getClassName());
             traineeID.setText(enrollmentResponse.getTraineeId());
             traineeName.setText(enrollmentResponse.getTraineeName());
