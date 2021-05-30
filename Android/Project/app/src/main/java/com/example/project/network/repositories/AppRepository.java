@@ -1,12 +1,16 @@
 package com.example.project.network.repositories;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.project.models.Assignment;
 import com.example.project.models.ClassResponse;
 import com.example.project.models.EnrollmentResponse;
 import com.example.project.models.LoginRequest;
 import com.example.project.models.LoginResponse;
+import com.example.project.network.apis.AssignmentService;
 import com.example.project.network.apis.ClassService;
 import com.example.project.network.apis.EnrollmentService;
 import com.example.project.network.apis.LoginService;
@@ -25,8 +29,9 @@ public class AppRepository {
     private static final String BASE_URL = "http://10.0.2.2:5000/api/";
     private LoginService loginService;
     private ClassService classService;
+    private AssignmentService assignmentService;
+    private MutableLiveData<List<Assignment>> assignmentResponseLiveData;
     private EnrollmentService enrollmentService;
-
     private MutableLiveData<List<ClassResponse>> classResponseLiveData;
     private MutableLiveData<List<ClassResponse>> trainerTraineeClassResponseLiveData;
 
@@ -38,6 +43,7 @@ public class AppRepository {
         loginResponseLiveData = new MutableLiveData<>();
         loginFailureLiveData = new MutableLiveData<>();
         classResponseLiveData = new MutableLiveData<>();
+        assignmentResponseLiveData = new MutableLiveData<>();
         trainerTraineeClassResponseLiveData = new MutableLiveData<>();
         enrollmentResponseLiveData =new MutableLiveData<>();
 
@@ -59,11 +65,13 @@ public class AppRepository {
                 .build()
                 .create(ClassService.class);
 
+        assignmentService = new retrofit2.Retrofit.Builder()
         enrollmentService = new retrofit2.Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
+                .create(AssignmentService.class);
                 .create(EnrollmentService.class);
     }
 
@@ -98,6 +106,7 @@ public class AppRepository {
             public void onResponse(Call<List<ClassResponse>> call, Response<List<ClassResponse>> response) {
                 if(response.body()!=null){
                     classResponseLiveData.postValue(response.body());
+                    Log.i("CLASS RESPONSE LIVE DATA POST VALUE", "123"+classResponseLiveData.toString());
                 }else{
                     classResponseLiveData.postValue(new ArrayList<>());
                 }
@@ -114,6 +123,17 @@ public class AppRepository {
         return classResponseLiveData;
     }
 
+    public void assignments(String token)
+    {
+        assignmentService.getAssignment("Bearer" + token).enqueue(new Callback<List<Assignment>>() {
+            @Override
+            public void onResponse(Call<List<Assignment>> call, Response<List<Assignment>> response) {
+                if(response.body()!=null)
+                {
+                    assignmentResponseLiveData.postValue(response.body());
+                }
+                else{
+                    assignmentResponseLiveData.postValue(new ArrayList<>());
     public void trainertraineeclass(String token,String role, String username){
         classService.getTrainerTraineeCLass("Bearer " + token, role, username).enqueue(new Callback<List<ClassResponse>>() {
             @Override
@@ -147,11 +167,13 @@ public class AppRepository {
             }
 
             @Override
+            public void onFailure(Call<List<Assignment>> call, Throwable t) {
             public void onFailure(Call<List<EnrollmentResponse>> call, Throwable t) {
-
             }
         });
     }
+    public MutableLiveData<List<Assignment>> getAssignmentLiveData(){
+        return assignmentResponseLiveData;
 
     public MutableLiveData<List<EnrollmentResponse>> getEnrollmentResponseLiveData() {
         return enrollmentResponseLiveData;

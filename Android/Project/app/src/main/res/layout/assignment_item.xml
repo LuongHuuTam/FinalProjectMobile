@@ -4,125 +4,155 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp">
+    android:padding="5dp">
+    <LinearLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:padding="20dp"
+        android:background="@drawable/rounded_background"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints"
+            android:id="@+id/number_group"
+            >
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:text="No. "
+                />
+            <TextView
+                android:id="@+id/number_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="1"
+                />
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        android:id="@+id/number_group"
-        >
-        <TextView
-            android:id="@+id/number"
+        <LinearLayout
+            android:id="@+id/course_name_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:text="No. "
-            />
-        <TextView
-            android:id="@+id/number_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="1"
-            />
-    </LinearLayout>
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/number_group"
+            >
+            <TextView
+                android:id="@+id/course_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:text="Course Name: "
+                />
+            <TextView
+                android:id="@+id/course_name_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text=".Net"
+                />
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/course_name_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@+id/number_group"
-        >
-        <TextView
-            android:id="@+id/course_name"
+        <LinearLayout
+            android:id="@+id/class_name_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:text="Course Name: "
-            />
-        <TextView
-            android:id="@+id/course_name_content"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/course_name_group"
+            >
+            <TextView
+                android:id="@+id/class_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:text="Class Name: "
+                />
+            <TextView
+                android:id="@+id/class_name_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="Class 1"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/trainer_name_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text=".Net"
-            />
-    </LinearLayout>
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/class_name_group"
+            >
+            <TextView
+                android:id="@+id/trainer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:text="Trainer Name: "
+                />
+            <TextView
+                android:id="@+id/trainer_name_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="Test"
+                />
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/class_name_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@+id/course_name_group"
-        >
-        <TextView
-            android:id="@+id/class_name"
+        <LinearLayout
+            android:id="@+id/register_code_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:text="Class Name: "
-            />
-        <TextView
-            android:id="@+id/class_name_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="Class 1"
-            />
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/trainer_name_group"
+            >
+            <TextView
+                android:id="@+id/register_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:text="Register Code: "
+                />
+            <TextView
+                android:id="@+id/register_code_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="Code"
+                />
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/trainer_name_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@+id/class_name_group"
-        >
-        <TextView
-            android:id="@+id/trainer_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:text="Trainer Name: "
-            />
-        <TextView
-            android:id="@+id/trainer_name_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="Test"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/register_code_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@+id/trainer_name_group"
-        >
-        <TextView
-            android:id="@+id/register_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:text="Register Code: "
-            />
-        <TextView
-            android:id="@+id/register_code_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="Code"
-            />
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/btn_edit"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="@drawable/button_circle_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/layout_content"
+        app:layout_constraintBottom_toTopOf="@+id/btn_delete"
+        android:src="@drawable/outline_edit_white_24" />
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="@drawable/button_circle_delete"
+        app:layout_constraintTop_toBottomOf="@+id/btn_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/layout_content"
+        android:src="@drawable/outline_delete_white_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

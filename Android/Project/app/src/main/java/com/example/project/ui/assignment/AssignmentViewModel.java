@@ -4,16 +4,27 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.project.models.Assignment;
+import com.example.project.models.ClassResponse;
+import com.example.project.network.repositories.AppRepository;
+
+import java.util.List;
+
 public class AssignmentViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private AppRepository appRepository = new AppRepository();
+    private LiveData<List<Assignment>> assignmentLiveData;
 
     public AssignmentViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is assignment fragment");
+        super();
+        assignmentLiveData = appRepository.getAssignmentLiveData();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<Assignment>> getAssignmentLiveData() {
+        return assignmentLiveData;
+    }
+
+    public void assignments(String token){
+        appRepository.assignments(token);
     }
 }
