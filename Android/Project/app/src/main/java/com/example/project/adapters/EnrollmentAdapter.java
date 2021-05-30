@@ -1,5 +1,6 @@
 package com.example.project.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class EnrollmentAdapter extends RecyclerView.Adapter<EnrollmentAdapter.En
             buttonDelete = itemView.findViewById(R.id.e_btn_delete);
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind(EnrollmentResponse enrollmentResponse) {
             classID.setText(Integer.toString(enrollmentResponse.getClassID()));
             className.setText(enrollmentResponse.getClassName());
@@ -88,7 +90,6 @@ public class EnrollmentAdapter extends RecyclerView.Adapter<EnrollmentAdapter.En
 
     public void setEnrollmentResponsesList(List<EnrollmentResponse> enrollmentResponsesList) {
         this.enrollmentResponsesList = enrollmentResponsesList;
-
         notifyDataSetChanged();
     }
 

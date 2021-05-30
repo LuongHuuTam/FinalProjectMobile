@@ -4,9 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class EnrollmentResponse {
-    @SerializedName("classID")
+    @SerializedName("classId")
     @Expose
-    private int classID;
+    private int classId;
 
     @SerializedName("className")
     @Expose
@@ -21,11 +21,11 @@ public class EnrollmentResponse {
     private String traineeName;
 
     public int getClassID() {
-        return classID;
+        return classId;
     }
 
-    public void setClassID(int classID) {
-        this.classID = classID;
+    public void setClassID(int classId) {
+        this.classId = classId;
     }
 
     public String getClassName() {
