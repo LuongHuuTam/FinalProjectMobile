@@ -1,16 +1,11 @@
 package com.example.project.ui.classes;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,33 +13,45 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
 import com.example.project.adapters.ClassAdapter;
+import com.example.project.adapters.ClassAdapterTrainerTrainee;
 import com.example.project.models.ClassResponse;
-import com.example.project.models.LoginResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
-import com.example.project.ui.MainActivity;
-import com.example.project.ui.login.LoginActivity;
 
 import java.util.List;
 
 public class ClassFragment extends Fragment {
 
-    private ClassViewModel classViewModel;
     private ClassAdapter classAdapter;
+    private ClassAdapterTrainerTrainee classAdapterTrainerTrainee;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        classViewModel = new ViewModelProvider(this).get(ClassViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_class, container, false);
 
-        //get token
+        ClassViewModel classViewModel = new ViewModelProvider(this).get(ClassViewModel.class);
+
         String token = "";
+        String role = "";
+        String userName ="";
+        View root;
+
         if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
+            role = SharedPreferencesManager.getLoginResponseValue(requireContext()).getRole();
+            userName = SharedPreferencesManager.getLoginResponseValue(requireContext()).getUsername();
         }
 
-        //put token to Header
+        if (role.equals("Admin")) {
+            root = inflater.inflate(R.layout.fragment_class, container, false);
+        } else {
+            root = inflater.inflate(R.layout.fragment_class_trainer_trainee, container, false);
+        }
+
+
+        //put token to @Header
         classViewModel.classes(token);
+        classViewModel.trainertraineeclass(token,role,userName);
         classAdapter = new ClassAdapter();
+        classAdapterTrainerTrainee = new ClassAdapterTrainerTrainee();
 
         //
         classAdapter.setClassListener(new ClassAdapter.ClassListener() {
@@ -53,11 +60,21 @@ public class ClassFragment extends Fragment {
 //                classViewModel.deleteClass(id);
             }
         });
+
         RecyclerView recyclerView = root.findViewById(R.id.rv_classList);
-        recyclerView.setAdapter(classAdapter);
-        classViewModel.getClassResponseLiveData().observe(getViewLifecycleOwner(), (Observer<List<ClassResponse>>) classResponseList -> {
-            classAdapter.setClassResponseList(classResponseList);
-        });
+
+        if (role.equals("Admin")) {
+            recyclerView.setAdapter(classAdapter);
+            classViewModel.getClassResponseLiveData().observe(getViewLifecycleOwner(), (Observer<List<ClassResponse>>) classResponseList -> {
+                classAdapter.setClassResponseList(classResponseList);
+            });
+        } else {
+            recyclerView.setAdapter(classAdapterTrainerTrainee);
+            classViewModel.getTrainerClassResponseLiveData().observe(getViewLifecycleOwner(), (Observer<List<ClassResponse>>) trainerClassResponseList -> {
+                classAdapterTrainerTrainee.setTrainerClassResponseList(trainerClassResponseList);
+            });
+        }
+
         return root;
     }
 }
