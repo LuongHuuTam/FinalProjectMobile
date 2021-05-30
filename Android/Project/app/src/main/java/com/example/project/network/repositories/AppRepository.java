@@ -7,10 +7,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.project.models.Assignment;
 import com.example.project.models.ClassResponse;
+import com.example.project.models.EnrollmentResponse;
 import com.example.project.models.LoginRequest;
 import com.example.project.models.LoginResponse;
 import com.example.project.network.apis.AssignmentService;
 import com.example.project.network.apis.ClassService;
+import com.example.project.network.apis.EnrollmentService;
 import com.example.project.network.apis.LoginService;
 
 import java.util.ArrayList;
@@ -29,16 +31,21 @@ public class AppRepository {
     private ClassService classService;
     private AssignmentService assignmentService;
     private MutableLiveData<List<Assignment>> assignmentResponseLiveData;
+    private EnrollmentService enrollmentService;
     private MutableLiveData<List<ClassResponse>> classResponseLiveData;
+    private MutableLiveData<List<ClassResponse>> trainerTraineeClassResponseLiveData;
 
     private MutableLiveData<LoginResponse> loginResponseLiveData;
     private MutableLiveData<String> loginFailureLiveData;
+    private MutableLiveData<List<EnrollmentResponse>> enrollmentResponseLiveData;
 
     public AppRepository() {
         loginResponseLiveData = new MutableLiveData<>();
         loginFailureLiveData = new MutableLiveData<>();
         classResponseLiveData = new MutableLiveData<>();
         assignmentResponseLiveData = new MutableLiveData<>();
+        trainerTraineeClassResponseLiveData = new MutableLiveData<>();
+        enrollmentResponseLiveData =new MutableLiveData<>();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -59,11 +66,13 @@ public class AppRepository {
                 .create(ClassService.class);
 
         assignmentService = new retrofit2.Retrofit.Builder()
+        enrollmentService = new retrofit2.Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(AssignmentService.class);
+                .create(EnrollmentService.class);
     }
 
     public void login(LoginRequest loginRequest){
@@ -125,17 +134,49 @@ public class AppRepository {
                 }
                 else{
                     assignmentResponseLiveData.postValue(new ArrayList<>());
+    public void trainertraineeclass(String token,String role, String username){
+        classService.getTrainerTraineeCLass("Bearer " + token, role, username).enqueue(new Callback<List<ClassResponse>>() {
+            @Override
+            public void onResponse(Call<List<ClassResponse>> call, Response<List<ClassResponse>> response) {
+                if(response.body()!=null){
+                    trainerTraineeClassResponseLiveData.postValue(response.body());
+                }else{
+                    trainerTraineeClassResponseLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ClassResponse>> call, Throwable t) {
+
+            }
+        });
+
+    }public MutableLiveData<List<ClassResponse>> getTrainerClassResponseLiveData() {
+        return trainerTraineeClassResponseLiveData;
+    }
+
+    public void  enrollments(String token){
+        enrollmentService.getEnrollment("Bearer "+token).enqueue(new Callback<List<EnrollmentResponse>>() {
+            @Override
+            public void onResponse(Call<List<EnrollmentResponse>> call, Response<List<EnrollmentResponse>> response) {
+                if(response.body()!=null){
+                    enrollmentResponseLiveData.postValue(response.body());
+                }else{
+                    enrollmentResponseLiveData.postValue(new ArrayList<>());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Assignment>> call, Throwable t) {
-
+            public void onFailure(Call<List<EnrollmentResponse>> call, Throwable t) {
             }
         });
     }
     public MutableLiveData<List<Assignment>> getAssignmentLiveData(){
         return assignmentResponseLiveData;
+
+    public MutableLiveData<List<EnrollmentResponse>> getEnrollmentResponseLiveData() {
+        return enrollmentResponseLiveData;
     }
 }
 
