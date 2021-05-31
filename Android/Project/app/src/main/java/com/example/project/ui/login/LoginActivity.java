@@ -53,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(LoginResponse loginResponse) {
                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_LONG).show();
-
                 //set LoginResponse Object to sharePreference
                 SharedPreferencesManager.setLoginResponseValue(getApplicationContext(),loginResponse);
 

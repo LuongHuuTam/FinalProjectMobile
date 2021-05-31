@@ -28,6 +28,7 @@ public class EnrollmentAdapter extends RecyclerView.Adapter<EnrollmentAdapter.En
     public EnrollmentViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_enrollment, parent, false);
         return new EnrollmentViewHolder(view);
+
     }
 
     @Override
