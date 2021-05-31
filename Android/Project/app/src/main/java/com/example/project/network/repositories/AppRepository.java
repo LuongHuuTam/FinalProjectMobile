@@ -42,9 +42,11 @@ public class AppRepository {
 
     private MutableLiveData<List<ClassResponse>> classResponseLiveData;
     private MutableLiveData<List<ClassResponse>> trainerTraineeClassResponseLiveData;
-
     private MutableLiveData<Void> addClassResponseLiveData;
+    private MutableLiveData<Void> deleteClassResponseLiveData;
+    private MutableLiveData<String> deleteClassFailureLiveData;
     private MutableLiveData<String> addClassFailureLiveData;
+    private MutableLiveData<ClassResponse> getClassInfoResponseLiveData;
 
     private MutableLiveData<LoginResponse> loginResponseLiveData;
     private MutableLiveData<String> loginFailureLiveData;
@@ -59,6 +61,9 @@ public class AppRepository {
         trainerTraineeClassResponseLiveData = new MutableLiveData<>();
         addClassResponseLiveData = new MutableLiveData<>();
         addClassFailureLiveData = new MutableLiveData<>();
+        deleteClassResponseLiveData = new MutableLiveData<>();
+        deleteClassFailureLiveData = new MutableLiveData<>();
+        getClassInfoResponseLiveData = new MutableLiveData<>();
 
         assignmentResponseLiveData = new MutableLiveData<>();
 
@@ -132,7 +137,7 @@ public class AppRepository {
         return loginFailureLiveData;
     }
 
-    //Get Class
+    //Get All Class
     public void classes(String token){
         classService.getClass("Bearer " + token).enqueue(new Callback<List<ClassResponse>>() {
             @Override
@@ -154,6 +159,58 @@ public class AppRepository {
 
     public MutableLiveData<List<ClassResponse>> getClassResponseLiveData() {
         return classResponseLiveData;
+    }
+
+    //Get Class Information
+    public void getClassInfo(String token, int classId){
+        classService.getClassInfo("Bearer " + token,classId ).enqueue(new Callback<ClassResponse>() {
+            @Override
+            public void onResponse(Call<ClassResponse> call, Response<ClassResponse> response) {
+                if(response.body()!=null){
+                    getClassInfoResponseLiveData.postValue(response.body());
+                    Log.i("CLASS RESPONSE LIVE DATA POST VALUE", "123"+classResponseLiveData.toString());
+                }else{
+                    getClassInfoResponseLiveData.postValue(new ClassResponse());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClassResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public MutableLiveData<ClassResponse> getGetClassInfoResponseLiveData() {
+        return getClassInfoResponseLiveData;
+    }
+
+    //Delete class
+    public void deleteClass(String token, int classId){
+        classService.deleteClass("Bearer " + token, classId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    deleteClassResponseLiveData.postValue(response.body());
+                }
+                else{
+                    deleteClassFailureLiveData.postValue("Fail to delete");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                addClassFailureLiveData.postValue(t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<Void> getDeleteClassResponseLiveData() {
+        return deleteClassResponseLiveData;
+    }
+
+    public MutableLiveData<String> getDeleteClassFailureLiveData() {
+        return deleteClassFailureLiveData;
     }
 
     //Add class
@@ -179,7 +236,6 @@ public class AppRepository {
     public MutableLiveData<Void> getAddClassResponseLiveData() {
         return addClassResponseLiveData;
     }
-
     public MutableLiveData<String> getAddClassFailureLiveData() {
         return addClassFailureLiveData;
     }
@@ -230,9 +286,11 @@ public class AppRepository {
     }
 
 
+
     //Get Assignment
     public void assignments(String token)
     {
+
         assignmentService.getAssignment("Bearer" + token).enqueue(new Callback<List<Assignment>>() {
             @Override
             public void onResponse(Call<List<Assignment>> call, Response<List<Assignment>> response) {

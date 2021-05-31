@@ -14,4 +14,9 @@
         <item name="android:textSize">70dp</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Dialog">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>

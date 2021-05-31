@@ -1,16 +1,21 @@
 package com.example.project.adapters;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
 import com.example.project.models.ClassResponse;
+import com.example.project.ui.login.LoginActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +24,8 @@ import java.util.List;
 
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
     private List<ClassResponse> classResponseList = new ArrayList();
-    private ClassListener classListener;
+    private ClassDelete classDelete;
+    private ClassEdit classEdit;
     @NonNull
     @NotNull
     @Override
@@ -48,6 +54,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         public ImageButton buttonAdd;
         public ImageButton buttonEdit;
         public ImageButton buttonDelete;
+        AlertDialog.Builder alertDialogBuilder;
 
         public ClassViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -60,6 +67,8 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
 
             buttonEdit = itemView.findViewById(R.id.btn_edit);
             buttonDelete = itemView.findViewById(R.id.btn_delete);
+
+            alertDialogBuilder = new AlertDialog.Builder(itemView.getContext());
         }
 
         public void bind(ClassResponse classResponse) {
@@ -71,11 +80,35 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             endDate.setText(classResponse.getEndTime().substring(0,10));
 
             buttonEdit.setOnClickListener(view -> {
-
+                if(classEdit!=null){
+                    classEdit.onEdit(classResponse.getClassID());
+                }
             });
             buttonDelete.setOnClickListener(view -> {
-                if(classListener!=null){
-                    classListener.onDelete(classResponse.getClassID());
+                if(classDelete!=null){
+                    alertDialogBuilder.setTitle("Delete");
+                    alertDialogBuilder.setMessage("Are you sure you want to delete this class")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    classDelete.onDelete(classResponse.getClassID());
+                                    Toast.makeText(itemView.getContext(), "Delete success", Toast.LENGTH_SHORT).show();
+
+                                }
+                            })
+                            .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+// show it
+                    alertDialog.show();
+
                 }
             });
         }
@@ -91,11 +124,18 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         return classResponseList;
     }
 
-    public interface ClassListener{
+    public interface ClassDelete{
         void onDelete(int id);
     }
 
-    public void setClassListener(ClassListener classListener) {
-        this.classListener = classListener;
+    public void setClassDelete(ClassDelete classDelete) {
+        this.classDelete = classDelete;
+    }
+    public interface ClassEdit{
+        void onEdit(int id);
+    }
+
+    public void setClassEdit(ClassEdit classEdit) {
+        this.classEdit = classEdit;
     }
 }
