@@ -41,23 +41,23 @@ namespace FeedbackApp.WebApi.Controllers
         public async Task<IActionResult> AddQuestion([FromBody] QuestionVm request)
         {
             if (await _questionService.AddQuestion(request))
-                return Ok();
-            return BadRequest("False");
+                return Ok("Successfull");
+            return BadRequest("Question is exist");
         }
 
         [HttpPut("{questionId}")]
         public async Task<IActionResult> EditQuestion(int questionId, [FromBody] QuestionVm request)
         {
             if (await _questionService.EditQuestion(questionId, request))
-                return Ok();
-            return BadRequest("False");
+                return Ok("Successfull");
+            return BadRequest("Question is exist");
         }
 
         [HttpDelete("{questionId}")]
         public async Task<IActionResult> DeleteQuestion(int questionId)
         {
             if (await _questionService.DeleteQuestion(questionId))
-                return Ok();
+                return Ok("Successfull");
             return BadRequest("False");
         }
     }
