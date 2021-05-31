@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Class"
+            android:text="Edit Class"
             android:textStyle="bold"
             android:textSize="40sp"
             android:layout_gravity="center"
@@ -31,7 +31,7 @@
             android:text="Class Name:"
             />
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/outlinedet_classname"
+            android:id="@+id/outlinedClassName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -40,7 +40,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_class_name"
+                android:id="@+id/edit_class_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
@@ -63,7 +63,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_capacity"
+                android:id="@+id/edit_capacity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -87,7 +87,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_start_day"
+                android:id="@+id/edit_start_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="datetime"
@@ -113,7 +113,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_end_day"
+                android:id="@+id/edit_end_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="datetime"
