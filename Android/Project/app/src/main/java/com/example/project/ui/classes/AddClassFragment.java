@@ -1,41 +1,46 @@
 package com.example.project.ui.classes;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.project.R;
 import com.example.project.models.ClassRequest;
+
 import com.example.project.models.ClassResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
-import com.example.project.ui.feedback.FeedBackViewModel;
-import com.example.project.ui.login.LoginActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+
 import java.util.List;
 import java.util.Locale;
 
 public class AddClassFragment extends Fragment {
     ClassViewModel classViewModel;
+    private List<ClassResponse> editClassResponse = new ArrayList();
     View root;
     TextInputEditText classname;
     TextInputLayout layoutClassname;
@@ -48,6 +53,7 @@ public class AddClassFragment extends Fragment {
     Button buttonAdd;
     String token;
     Calendar dateTimePicker;
+    AlertDialog.Builder alertDialogBuilder;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +67,7 @@ public class AddClassFragment extends Fragment {
         endDate = root.findViewById(R.id.add_end_day);
         buttonAdd = root.findViewById(R.id.btn_save);
         dateTimePicker = Calendar.getInstance();
-
+        alertDialogBuilder = new AlertDialog.Builder(requireContext());
 
         layoutClassname = root.findViewById(R.id.outlinedClassName);
         layoutCapacity = root.findViewById(R.id.outlinedTextCapacity);
@@ -158,7 +164,22 @@ public class AddClassFragment extends Fragment {
         if(SharedPreferencesManager.getLoginResponseValue(requireContext())!=null){
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
         }
+
         classViewModel.getAddClassResponseLiveData().observe(getViewLifecycleOwner(), (Observer<Void>) classResponseList -> {
+            alertDialogBuilder.setTitle("Success");
+            alertDialogBuilder.setMessage("Add class successful")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Navigation.findNavController(root).navigate(R.id.nav_class);
+                        }
+                    });
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+// show it
+            alertDialog.show();
             Toast.makeText(getContext(), "Add class sucessfull !", Toast.LENGTH_LONG).show();
         });
 
@@ -168,7 +189,20 @@ public class AddClassFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(TextUtils.isEmpty(classname.getText().toString()) || TextUtils.isEmpty(capacity.getText().toString()) || TextUtils.isEmpty(startDate.getText().toString()) || TextUtils.isEmpty(endDate.getText().toString())){
-                    Toast.makeText(getContext(), "All fields is required", Toast.LENGTH_LONG).show();
+                    alertDialogBuilder.setTitle("Error");
+                    alertDialogBuilder.setMessage("All field is required !")
+                            .setCancelable(false)
+                            .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+// show it
+                    alertDialog.show();
                 }
                 else{
                     addClass();

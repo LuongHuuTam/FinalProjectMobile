@@ -56,17 +56,27 @@ public class ClassFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_nav_class_to_class_addClass);
             }
         });
+        String finalToken = token;
         //put token to @Header
-        classViewModel.classes(token);
+        classViewModel.classes(finalToken);
         classViewModel.trainertraineeclass(token,role,userName);
         classAdapter = new ClassAdapter();
         classAdapterTrainerTrainee = new ClassAdapterTrainerTrainee();
 
+
         //
-        classAdapter.setClassListener(new ClassAdapter.ClassListener() {
+        classAdapter.setClassDelete(new ClassAdapter.ClassDelete() {
             @Override
             public void onDelete(int id) {
-//                classViewModel.deleteClass(id);
+                classViewModel.deleteClass(finalToken,id);
+            }
+        });
+
+
+        classAdapter.setClassEdit(new ClassAdapter.ClassEdit() {
+            @Override
+            public void onEdit(int id) {
+                classViewModel.getClassInfo(finalToken,id);
             }
         });
 
