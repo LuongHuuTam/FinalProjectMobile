@@ -11,10 +11,12 @@ import com.example.project.models.ClassResponse;
 import com.example.project.models.EnrollmentResponse;
 import com.example.project.models.LoginRequest;
 import com.example.project.models.LoginResponse;
+import com.example.project.models.QuestionResponse;
 import com.example.project.network.apis.AssignmentService;
 import com.example.project.network.apis.ClassService;
 import com.example.project.network.apis.EnrollmentService;
 import com.example.project.network.apis.LoginService;
+import com.example.project.network.apis.QuestionService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,9 @@ public class AppRepository {
     private ClassService classService;
     private AssignmentService assignmentService;
     private EnrollmentService enrollmentService;
+    private QuestionService questionService;
+
+    private MutableLiveData<List<QuestionResponse>> questionResponseLiveData;
 
     private MutableLiveData<List<Assignment>> assignmentResponseLiveData;
 
@@ -58,6 +63,8 @@ public class AppRepository {
         assignmentResponseLiveData = new MutableLiveData<>();
 
         enrollmentResponseLiveData =new MutableLiveData<>();
+
+        questionResponseLiveData =new MutableLiveData<>();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -90,6 +97,13 @@ public class AppRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(EnrollmentService.class);
+
+        questionService=new retrofit2.Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(QuestionService.class);
     }
 
     //Login
@@ -215,6 +229,8 @@ public class AppRepository {
         return enrollmentResponseLiveData;
     }
 
+
+    //Get Assignment
     public void assignments(String token)
     {
         assignmentService.getAssignment("Bearer" + token).enqueue(new Callback<List<Assignment>>() {
@@ -237,6 +253,30 @@ public class AppRepository {
     }
     public MutableLiveData<List<Assignment>> getAssignmentLiveData(){
         return assignmentResponseLiveData;
+    }
+
+    //Get Question
+    public void  questions(String token,int topicId){
+        questionService.getQuestions(token,topicId).enqueue(new Callback<List<QuestionResponse>>() {
+            @Override
+            public void onResponse(Call<List<QuestionResponse>> call, Response<List<QuestionResponse>> response) {
+                if(response.body()!=null){
+                    questionResponseLiveData.postValue(response.body());
+                }
+                else {
+                    questionResponseLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<QuestionResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public MutableLiveData<List<QuestionResponse>> getQuestionResponseLiveData(){
+        return questionResponseLiveData;
     }
 }
 
