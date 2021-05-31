@@ -53,6 +53,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         public TextView registrationCode;
         public ImageButton buttonEdit;
         public ImageButton buttonDelete;
+        public ImageButton buttonAdd;
 
         public AssignmentViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);

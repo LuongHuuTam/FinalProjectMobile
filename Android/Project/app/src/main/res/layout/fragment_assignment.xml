@@ -27,7 +27,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/button_circle_add"
-            android:src="@drawable/ic_baseline_add_24" />
+            android:src="@drawable/ic_baseline_add_24"/>
 
     </LinearLayout>
 
