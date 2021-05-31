@@ -13,6 +13,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -21,10 +22,13 @@ public interface ClassService {
     Call<List<ClassResponse>> getClass(@Header("Authorization") String token);
 
     @GET("Classes/{role}class/{username}")
-    Call<List<ClassResponse>> getTrainerTraineeCLass(@Header("Authorization") String token,@Path(value = "role",encoded = true) String role, @Path(value = "username", encoded = true) String username);
+    Call<List<ClassResponse>> gettrainerTraineeClass(@Header("Authorization") String token,@Path(value = "role",encoded = true) String role, @Path(value = "username", encoded = true) String username);
 
     @GET("Classes/{classId}")
     Call<ClassResponse> getClassInfo(@Header("Authorization")String token, @Path(value="classId",encoded = true) int classId);
+
+    @PUT("Classes/{classId}")
+    Call<Void> updateClass(@Header("Authorization")String token, @Path(value="classId",encoded = true) int classId,@Body ClassRequest classRequest);
 
     @POST("Classes")
     Call<Void> addClass(@Header("Authorization") String token, @Body ClassRequest classRequest);

@@ -37,10 +37,16 @@ public class AppRepository {
 
     private MutableLiveData<List<ClassResponse>> classResponseLiveData;
     private MutableLiveData<List<ClassResponse>> trainerTraineeClassResponseLiveData;
+
     private MutableLiveData<Void> addClassResponseLiveData;
+    private MutableLiveData<String> addClassFailureLiveData;
+
     private MutableLiveData<Void> deleteClassResponseLiveData;
     private MutableLiveData<String> deleteClassFailureLiveData;
-    private MutableLiveData<String> addClassFailureLiveData;
+
+    private MutableLiveData<Void> updateClassResponseLiveData;
+    private MutableLiveData<String> updateFailureLiveData;
+
     private MutableLiveData<ClassResponse> getClassInfoResponseLiveData;
 
     private MutableLiveData<LoginResponse> loginResponseLiveData;
@@ -58,6 +64,7 @@ public class AppRepository {
         addClassFailureLiveData = new MutableLiveData<>();
         deleteClassResponseLiveData = new MutableLiveData<>();
         deleteClassFailureLiveData = new MutableLiveData<>();
+        updateClassResponseLiveData = new MutableLiveData<>();
         getClassInfoResponseLiveData = new MutableLiveData<>();
 
         assignmentResponseLiveData = new MutableLiveData<>();
@@ -154,12 +161,10 @@ public class AppRepository {
             public void onResponse(Call<ClassResponse> call, Response<ClassResponse> response) {
                 if(response.body()!=null){
                     getClassInfoResponseLiveData.postValue(response.body());
-                    Log.i("CLASS RESPONSE LIVE DATA POST VALUE", "123"+classResponseLiveData.toString());
                 }else{
                     getClassInfoResponseLiveData.postValue(new ClassResponse());
                 }
             }
-
             @Override
             public void onFailure(Call<ClassResponse> call, Throwable t) {
 
@@ -169,6 +174,32 @@ public class AppRepository {
 
     public MutableLiveData<ClassResponse> getGetClassInfoResponseLiveData() {
         return getClassInfoResponseLiveData;
+    }
+
+    //Update class
+    public void updateClass(String token, int classId, ClassRequest classRequest){
+        classService.updateClass("Bearer " + token, classId,classRequest).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    updateClassResponseLiveData.postValue(response.body());
+                } else
+                    updateFailureLiveData.postValue("Update fail");
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                updateFailureLiveData.postValue(t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<Void> getUpdateClassResponseLiveData() {
+        return updateClassResponseLiveData;
+    }
+
+    public MutableLiveData<String> getUpdateFailureLiveData() {
+        return updateFailureLiveData;
     }
 
     //Delete class
@@ -227,8 +258,8 @@ public class AppRepository {
     }
 
     //Get trainee trainer class
-    public void trainertraineeclass(String token, String role, String username){
-        classService.getTrainerTraineeCLass("Bearer " + token, role, username).enqueue(new Callback<List<ClassResponse>>() {
+    public void trainerTraineeClass(String token, String role, String username){
+        classService.gettrainerTraineeClass("Bearer " + token, role, username).enqueue(new Callback<List<ClassResponse>>() {
             @Override
             public void onResponse(Call<List<ClassResponse>> call, Response<List<ClassResponse>> response) {
                 if(response.body()!=null){

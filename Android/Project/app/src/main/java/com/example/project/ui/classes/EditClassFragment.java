@@ -1,5 +1,6 @@
 package com.example.project.ui.classes;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.project.R;
+import com.example.project.adapters.ClassAdapter;
 import com.example.project.models.ClassRequest;
 
 import com.example.project.models.ClassResponse;
@@ -30,7 +32,10 @@ import com.example.project.sharepreference.SharedPreferencesManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,7 +43,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class AddClassFragment extends Fragment {
+public class EditClassFragment extends Fragment {
     ClassViewModel classViewModel;
     View root;
     TextInputEditText classname;
@@ -53,16 +58,19 @@ public class AddClassFragment extends Fragment {
     String token;
     Calendar dateTimePicker;
     AlertDialog.Builder alertDialogBuilder;
+    ClassResponse classResponse;
 
+    @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.fragment_class_add_class,container,false);
+
+        root = inflater.inflate(R.layout.fragment_class_edit_class, container, false);
         classViewModel = new ViewModelProvider(this).get(ClassViewModel.class);
-        classname = root.findViewById(R.id.add_class_name);
-        capacity = root.findViewById(R.id.add_capacity);
-        startDate = root.findViewById(R.id.add_start_day);
-        endDate = root.findViewById(R.id.add_end_day);
+        classname = root.findViewById(R.id.edit_class_name);
+        capacity = root.findViewById(R.id.edit_capacity);
+        startDate = root.findViewById(R.id.edit_start_day);
+        endDate = root.findViewById(R.id.edit_end_day);
         buttonAdd = root.findViewById(R.id.btn_save);
         dateTimePicker = Calendar.getInstance();
         alertDialogBuilder = new AlertDialog.Builder(requireContext());
@@ -71,6 +79,23 @@ public class AddClassFragment extends Fragment {
         layoutCapacity = root.findViewById(R.id.outlinedTextCapacity);
         layoutStartDate = root.findViewById(R.id.outlinedTextStartDay);
         layoutEndDate = root.findViewById(R.id.outlinedTextEndDay);
+
+        startDate.setEnabled(false);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            Gson gson = new Gson();
+            String classData = bundle.getString("CLASS_DATA", "");
+            Type token = new TypeToken<ClassResponse>() {
+            }.getType();
+            classResponse = gson.fromJson(classData, token);
+            if (classResponse != null) {
+                classname.setText(classResponse.getName());
+                capacity.setText(Integer.toString(classResponse.getCapacity()));
+                startDate.setText(classResponse.getStartTime().substring(0,10));
+                endDate.setText(classResponse.getEndTime().substring(0,10));
+            }
+        }
 
         DatePickerDialog.OnDateSetListener startDatePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -92,14 +117,14 @@ public class AddClassFragment extends Fragment {
             }
         };
 
-        startDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new DatePickerDialog(getContext(), startDatePicker, dateTimePicker
-                        .get(Calendar.YEAR), dateTimePicker.get(Calendar.MONTH),
-                        dateTimePicker.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+//        startDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                new DatePickerDialog(getContext(), startDatePicker, dateTimePicker
+//                        .get(Calendar.YEAR), dateTimePicker.get(Calendar.MONTH),
+//                        dateTimePicker.get(Calendar.DAY_OF_MONTH)).show();
+//            }
+//        });
 
         endDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,10 +135,10 @@ public class AddClassFragment extends Fragment {
             }
         });
 
+
 //        layoutStartDate.setError("Start day must be after current day");
 //        layoutEndDate.setError("End day must be after current day and start day");
 
-        //set text error for input
         classname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -121,10 +146,10 @@ public class AddClassFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(classname.getText().toString().equals("")){
+                if (classname.getText().toString().equals("")) {
                     layoutClassname.setError("Please enter class name and less than 255 characters");
-                }
-                else {
+
+                } else {
                     layoutClassname.setError(null);
                 }
             }
@@ -133,7 +158,6 @@ public class AddClassFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
-
         capacity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -142,10 +166,9 @@ public class AddClassFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(capacity.getText().toString().equals("") || capacity.getText().toString().equals("0")){
+                if (capacity.getText().toString().equals("") || capacity.getText().toString().equals("0")) {
                     layoutCapacity.setError("Please enter capacity in integer and larger than 0");
-                }
-                else{
+                } else {
                     layoutCapacity.setError(null);
                 }
             }
@@ -156,40 +179,33 @@ public class AddClassFragment extends Fragment {
             }
         });
 
-
-
-        if(SharedPreferencesManager.getLoginResponseValue(requireContext())!=null){
+        if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
         }
 
-        //when Add class success
-        classViewModel.getAddClassResponseLiveData().observe(getViewLifecycleOwner(), new Observer<Void>() {
-            @Override
-            public void onChanged(Void unused) {
-                alertDialogBuilder.setTitle("Success");
-                alertDialogBuilder.setMessage("Add class successful")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Navigation.findNavController(root).navigate(R.id.nav_class);
-                            }
-                        });
-                // create alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
+        classViewModel.getUpdateClassResponseLiveData().observe(getViewLifecycleOwner(),
+                (Observer<Void>) updateClassResponse -> {
+                    alertDialogBuilder.setTitle("Success");
+                    alertDialogBuilder.setMessage("Update class successful")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Navigation.findNavController(root).navigate(R.id.nav_class);
+                                }
+                            });
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
 
-                // show it
-                alertDialog.show();
-                Toast.makeText(getContext(), "Add class sucessfull !", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
+                    // show it
+                    alertDialog.show();
+                    Toast.makeText(getContext(), "Update class successful !", Toast.LENGTH_LONG).show();
+                });
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(classname.getText().toString()) || TextUtils.isEmpty(capacity.getText().toString()) || TextUtils.isEmpty(startDate.getText().toString()) || TextUtils.isEmpty(endDate.getText().toString())){
+                if (TextUtils.isEmpty(classname.getText().toString()) || TextUtils.isEmpty(capacity.getText().toString()) || TextUtils.isEmpty(startDate.getText().toString()) || TextUtils.isEmpty(endDate.getText().toString())) {
                     alertDialogBuilder.setTitle("Error");
                     alertDialogBuilder.setMessage("All field is required !")
                             .setCancelable(false)
@@ -204,33 +220,36 @@ public class AddClassFragment extends Fragment {
 
 // show it
                     alertDialog.show();
-                }
-                else{
-                    addClass();
+                } else {
+                    updateClass();
                 }
             }
         });
+
+
         return root;
     }
 
-    public void addClass() {
+    public void updateClass() {
         ClassRequest classRequest = new ClassRequest();
         classRequest.setName(classname.getText().toString());
         classRequest.setCapacity(Integer.parseInt(capacity.getText().toString()));
         classRequest.setStartTime(startDate.getText().toString());
         classRequest.setEndTime(endDate.getText().toString());
 
-        if(token!=null) {
-            classViewModel.addClasses(token, classRequest);
+        if (token != null) {
+//            Do update
+            classViewModel.updateClass(token, classResponse.getClassID(), classRequest);
         }
 
-
     }
+
     private void updateLabelStartDay() {
         String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         startDate.setText(sdf.format(dateTimePicker.getTime()));
     }
+
     private void updateLabelEndDay() {
         String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);

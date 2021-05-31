@@ -18,6 +18,7 @@ public class ClassViewModel extends ViewModel {
     private LiveData<String> addClassFailureLiveData;
     private LiveData<ClassResponse> getClassInfoResponseLiveData;
     private LiveData<Void> deleteClassResponseLiveData;
+    private LiveData<Void> updateClassResponseLiveData;
 
     public ClassViewModel() {
         super();
@@ -27,6 +28,8 @@ public class ClassViewModel extends ViewModel {
         addClassFailureLiveData = appRepository.getAddClassFailureLiveData();
         getClassInfoResponseLiveData = appRepository.getGetClassInfoResponseLiveData();
         deleteClassResponseLiveData = appRepository.getDeleteClassResponseLiveData();
+        updateClassResponseLiveData = appRepository.getUpdateClassResponseLiveData();
+
     }
 
     public LiveData<List<ClassResponse>> getClassResponseLiveData() {
@@ -40,6 +43,7 @@ public class ClassViewModel extends ViewModel {
     public LiveData<Void> getAddClassResponseLiveData() {
         return addClassResponseLiveData;
     }
+
     public LiveData<ClassResponse> getGetClassInfoResponseLiveData(){
         return getClassInfoResponseLiveData;
     }
@@ -51,16 +55,22 @@ public class ClassViewModel extends ViewModel {
         return addClassFailureLiveData;
     }
 
+    public LiveData<Void> getUpdateClassResponseLiveData() {
+        return updateClassResponseLiveData;
+    }
+
     public void classes(String token){
         appRepository.classes(token);
     }
 
-    public void trainertraineeclass(String token,String role, String username){appRepository.trainertraineeclass(token,role,username);}
+    public void trainerTraineeClass(String token,String role, String username){appRepository.trainerTraineeClass(token,role,username);}
 
     public void addClasses(String token, ClassRequest classRequest){appRepository.addClasses(token,classRequest);}
 
     public void getClassInfo(String token, int Id){appRepository.getClassInfo(token,Id);}
 
     public void deleteClass(String token, int Id){appRepository.deleteClass(token,Id);}
+
+    public void updateClass(String token, int Id, ClassRequest classRequest){appRepository.updateClass(token,Id,classRequest);}
 
 }

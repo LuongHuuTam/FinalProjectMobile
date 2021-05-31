@@ -84,6 +84,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                     classEdit.onEdit(classResponse.getClassID());
                 }
             });
+
             buttonDelete.setOnClickListener(view -> {
                 if(classDelete!=null){
                     alertDialogBuilder.setTitle("Delete");
@@ -131,6 +132,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
     public void setClassDelete(ClassDelete classDelete) {
         this.classDelete = classDelete;
     }
+
     public interface ClassEdit{
         void onEdit(int id);
     }
