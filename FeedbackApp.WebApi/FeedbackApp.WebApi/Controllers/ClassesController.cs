@@ -21,8 +21,8 @@ namespace FeedbackApp.WebApi.Controllers
         public async Task<IActionResult> AddClass([FromBody] ClassVm request)
         {
             if (await _classService.AddClass(request))
-                return Ok();
-            return BadRequest("False");
+                return Ok("Successful");
+            return BadRequest("Class is exist");
         }
 
         [HttpGet]
@@ -59,15 +59,15 @@ namespace FeedbackApp.WebApi.Controllers
         public async Task<IActionResult> EditClass(int classId, [FromBody] ClassVm request)
         {
             if (await _classService.EditClass(classId, request))
-                return Ok();
-            return BadRequest("False");
+                return Ok("Successful");
+            return BadRequest("Class is exist");
         }
 
         [HttpDelete("{classId}")]
         public async Task<IActionResult> DeleteClass(int classId)
         {
             if (await _classService.DeleteClass(classId))
-                return Ok();
+                return Ok("Successful");
             return BadRequest("False");
         }
 

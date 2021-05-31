@@ -51,7 +51,7 @@ namespace FeedbackApp.WebApi.Controllers
             Assignment temp = _mapper.Map<Assignment>(request);
             if (await _assignmentService.AddAssignment(temp))
             {
-                return Ok();
+                return Ok("Successful");
             }
             return BadRequest("Assignment Is Exist");
         }
@@ -62,7 +62,7 @@ namespace FeedbackApp.WebApi.Controllers
             Assignment temp = _mapper.Map<Assignment>(request);
             if (await _assignmentService.DeleteAssignment(temp))
             {
-                return Ok();
+                return Ok("Successful");
             }
             return BadRequest("False");
         }
@@ -73,9 +73,9 @@ namespace FeedbackApp.WebApi.Controllers
             Assignment temp = _mapper.Map<Assignment>(request);
             if (await _assignmentService.EditAssignment(temp))
             {
-                return Ok();
+                return Ok("Successful");
             }
-            return BadRequest("False");
+            return BadRequest("Assignment Is Exist");
         }
     }
 }
