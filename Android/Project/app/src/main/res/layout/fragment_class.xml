@@ -34,18 +34,19 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_classList"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"
-        tools:listitem="@layout/item_class"
-        tools:itemCount="3"
-        app:layout_constraintTop_toBottomOf="@id/layout_header"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_classList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:scrollbars="vertical"
+            android:paddingEnd="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_class"
+            app:layout_constraintTop_toBottomOf="@+id/layout_header"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
