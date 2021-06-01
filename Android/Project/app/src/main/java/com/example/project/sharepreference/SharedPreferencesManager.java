@@ -3,7 +3,6 @@ package com.example.project.sharepreference;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.project.models.ClassResponse;
 import com.example.project.models.LoginResponse;
 import com.google.gson.Gson;
 

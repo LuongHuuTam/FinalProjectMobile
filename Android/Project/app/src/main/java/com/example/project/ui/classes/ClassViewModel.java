@@ -3,10 +3,9 @@ package com.example.project.ui.classes;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.project.models.ClassRequest;
-import com.example.project.models.ClassResponse;
-import com.example.project.models.ClassTraineeResponse;
-import com.example.project.models.LoginRequest;
+import com.example.project.models.class_models.ClassRequest;
+import com.example.project.models.class_models.ClassResponse;
+import com.example.project.models.class_models.ClassTraineeResponse;
 import com.example.project.network.repositories.AppRepository;
 
 import java.util.List;

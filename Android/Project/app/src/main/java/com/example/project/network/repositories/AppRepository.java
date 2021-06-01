@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.project.models.Assignment;
-import com.example.project.models.ClassTraineeResponse;
-import com.example.project.models.ClassRequest;
-import com.example.project.models.ClassResponse;
+import com.example.project.models.class_models.ClassTraineeResponse;
+import com.example.project.models.class_models.ClassRequest;
+import com.example.project.models.class_models.ClassResponse;
 import com.example.project.models.DoFeedbackResponse;
 import com.example.project.models.EnrollmentResponse;
 import com.example.project.models.FeedbackResponse;

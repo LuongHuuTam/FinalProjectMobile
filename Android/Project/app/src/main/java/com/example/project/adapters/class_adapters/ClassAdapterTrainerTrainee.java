@@ -1,4 +1,4 @@
-package com.example.project.adapters;
+package com.example.project.adapters.class_adapters;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.models.ClassResponse;
+import com.example.project.models.class_models.ClassResponse;
 
 import org.jetbrains.annotations.NotNull;
 

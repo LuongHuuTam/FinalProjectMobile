@@ -1,10 +1,8 @@
 package com.example.project.network.apis;
 
-import android.graphics.drawable.shapes.OvalShape;
-
-import com.example.project.models.ClassRequest;
-import com.example.project.models.ClassResponse;
-import com.example.project.models.ClassTraineeResponse;
+import com.example.project.models.class_models.ClassRequest;
+import com.example.project.models.class_models.ClassResponse;
+import com.example.project.models.class_models.ClassTraineeResponse;
 
 import java.util.List;
 
@@ -16,7 +14,6 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ClassService {
     @GET("Classes")

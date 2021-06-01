@@ -1,4 +1,4 @@
-package com.example.project.adapters;
+package com.example.project.adapters.class_adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.models.ClassTraineeResponse;
+import com.example.project.models.class_models.ClassTraineeResponse;
 
 import org.jetbrains.annotations.NotNull;
 

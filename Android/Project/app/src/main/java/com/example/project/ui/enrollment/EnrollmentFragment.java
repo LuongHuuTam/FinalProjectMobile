@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
 import com.example.project.adapters.EnrollmentAdapter;
-import com.example.project.models.ClassResponse;
+import com.example.project.models.class_models.ClassResponse;
 import com.example.project.models.EnrollmentResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
 

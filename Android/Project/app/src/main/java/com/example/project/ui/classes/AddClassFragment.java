@@ -23,19 +23,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.project.R;
-import com.example.project.models.ClassRequest;
+import com.example.project.models.class_models.ClassRequest;
 
-import com.example.project.models.ClassResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
-import java.util.List;
 import java.util.Locale;
 
 public class AddClassFragment extends Fragment {

@@ -24,10 +24,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.project.R;
-import com.example.project.adapters.ClassAdapter;
-import com.example.project.models.ClassRequest;
+import com.example.project.models.class_models.ClassRequest;
 
-import com.example.project.models.ClassResponse;
+import com.example.project.models.class_models.ClassResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -37,10 +36,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
-import java.util.List;
 import java.util.Locale;
 
 public class EditClassFragment extends Fragment {

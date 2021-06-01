@@ -4,27 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.adapters.ClassAdapter;
-import com.example.project.adapters.ClassAdapterTrainerTrainee;
-import com.example.project.adapters.ClassDetailAdapter;
-import com.example.project.models.ClassResponse;
-import com.example.project.models.ClassTraineeResponse;
+import com.example.project.adapters.class_adapters.ClassDetailAdapter;
+import com.example.project.models.class_models.ClassResponse;
+import com.example.project.models.class_models.ClassTraineeResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
-import com.google.gson.Gson;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 

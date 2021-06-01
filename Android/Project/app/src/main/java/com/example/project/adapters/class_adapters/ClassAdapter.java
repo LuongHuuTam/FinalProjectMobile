@@ -1,4 +1,4 @@
-package com.example.project.adapters;
+package com.example.project.adapters.class_adapters;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,12 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.models.ClassResponse;
-import com.example.project.ui.login.LoginActivity;
+import com.example.project.models.class_models.ClassResponse;
 
 import org.jetbrains.annotations.NotNull;
 

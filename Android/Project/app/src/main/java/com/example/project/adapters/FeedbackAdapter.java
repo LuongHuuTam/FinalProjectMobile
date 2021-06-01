@@ -67,17 +67,6 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
             Title.setText(feedbackResponse.getTitle());
             adminId.setText(feedbackResponse.getAdminID());
 
-            buttonDetail.setOnClickListener(view->{
-
-            });
-
-            buttonEdit.setOnClickListener(view -> {
-
-            });
-
-            buttonDelete.setOnClickListener(view -> {
-
-            });
         }
     }
 
