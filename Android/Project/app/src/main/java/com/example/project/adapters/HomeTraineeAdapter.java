@@ -81,9 +81,7 @@ public class HomeTraineeAdapter extends RecyclerView.Adapter<HomeTraineeAdapter.
             else {
                 status.setText("InComplete");
             }
-            buttonExe.setOnClickListener(view->{
 
-            });
 
         }
     }

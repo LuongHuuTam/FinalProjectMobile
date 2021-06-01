@@ -68,13 +68,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             questionID.setText(Integer.toString(questionResponse.getQuestionID()));
             questionContent.setText(questionResponse.getContent());
 
-            buttonEdit.setOnClickListener(view -> {
-
-            });
-
-            buttonDelete.setOnClickListener(view -> {
-
-            });
         }
 
     }
