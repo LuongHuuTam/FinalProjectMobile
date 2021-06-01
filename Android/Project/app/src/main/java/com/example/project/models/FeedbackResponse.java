@@ -3,8 +3,6 @@ package com.example.project.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class FeedbackResponse {
     @SerializedName("feedbackID")
     @Expose
@@ -26,9 +24,9 @@ public class FeedbackResponse {
     @Expose
     private String typeFeedbackName;
 
-    @SerializedName("questions")
-    @Expose
-    private List<QuestionResponse> questions;
+//    @SerializedName("questions")
+//    @Expose
+//    private List<QuestionResponse> questions;
 
     public int getFeedbackID() {
         return feedbackID;
@@ -70,11 +68,11 @@ public class FeedbackResponse {
         this.typeFeedbackName = typeFeedbackName;
     }
 
-    public List<QuestionResponse> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<QuestionResponse> questions) {
-        this.questions = questions;
-    }
+//    public List<QuestionResponse> getQuestions() {
+//        return questions;
+//    }
+//
+//    public void setQuestions(List<QuestionResponse> questions) {
+//        this.questions = questions;
+//    }
 }

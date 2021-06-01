@@ -14,12 +14,14 @@ import com.example.project.models.EnrollmentResponse;
 import com.example.project.models.FeedbackResponse;
 import com.example.project.models.LoginRequest;
 import com.example.project.models.LoginResponse;
+import com.example.project.models.ModuleResponse;
 import com.example.project.models.QuestionResponse;
 import com.example.project.network.apis.AssignmentService;
 import com.example.project.network.apis.ClassService;
 import com.example.project.network.apis.EnrollmentService;
 import com.example.project.network.apis.FeedbackService;
 import com.example.project.network.apis.LoginService;
+import com.example.project.network.apis.ModuleService;
 import com.example.project.network.apis.QuestionService;
 
 import java.util.ArrayList;
@@ -40,8 +42,9 @@ public class AppRepository {
     private EnrollmentService enrollmentService;
     private QuestionService questionService;
     private FeedbackService feedbackService;
+    private ModuleService moduleService;
 
-
+    private MutableLiveData<List<ModuleResponse>> moduleResponseLiveData;
     private MutableLiveData<List<QuestionResponse>> questionResponseLiveData;
 
     private MutableLiveData<List<Assignment>> assignmentResponseLiveData;
@@ -93,6 +96,7 @@ public class AppRepository {
         questionResponseLiveData =new MutableLiveData<>();
         feedbackResponseLiveData=new MutableLiveData<>();
         doFeedbackResponeLiveData=new MutableLiveData<>();
+        moduleResponseLiveData=new MutableLiveData<>();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -139,6 +143,13 @@ public class AppRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(FeedbackService.class);
+
+        moduleService = new retrofit2.Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ModuleService.class);
     }
 
     //Login
@@ -460,6 +471,30 @@ public class AppRepository {
     }
     public MutableLiveData<List<DoFeedbackResponse>> getDoFeedbackResponseLiveData(){
         return doFeedbackResponeLiveData;
+    }
+
+    //Get module
+    public void modules(String token){
+        moduleService.getModules(token).enqueue(new Callback<List<ModuleResponse>>() {
+            @Override
+            public void onResponse(Call<List<ModuleResponse>> call, Response<List<ModuleResponse>> response) {
+                if(response.body()!=null){
+                    moduleResponseLiveData.postValue(response.body());
+                }
+                else {
+                    moduleResponseLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ModuleResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public MutableLiveData<List<ModuleResponse>> getModuleResponseLiveData(){
+        return moduleResponseLiveData;
     }
 }
 

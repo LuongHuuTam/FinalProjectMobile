@@ -1,19 +1,30 @@
 package com.example.project.ui.module;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.project.models.ModuleResponse;
+import com.example.project.network.repositories.AppRepository;
+
+import java.util.List;
 
 public class ModuleViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private AppRepository appRepository = new AppRepository();
+    private LiveData<List<ModuleResponse>> moduleResponseLiveData;
+
 
     public ModuleViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is module fragment");
+        super();
+        moduleResponseLiveData=appRepository.getModuleResponseLiveData();
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<ModuleResponse>> getModuleResponseLiveData() {
+        return moduleResponseLiveData;
+    }
+
+    public void modules(String token){
+        appRepository.modules(token);
     }
 }
