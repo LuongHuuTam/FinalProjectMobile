@@ -71,19 +71,6 @@ public class EnrollmentAdapter extends RecyclerView.Adapter<EnrollmentAdapter.En
             traineeID.setText(enrollmentResponse.getTraineeId());
             traineeName.setText(enrollmentResponse.getTraineeName());
 
-            buttonDetail.setOnClickListener(view -> {
-
-            });
-
-            buttonEdit.setOnClickListener(view -> {
-
-            });
-
-            buttonDelete.setOnClickListener(view -> {
-                if(enrollmentListener!=null){
-                    //enrollmentListener.onDelete(classResponse.getClassID());
-                }
-            });
         }
 
     }

@@ -81,13 +81,7 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ModuleView
             feedbackEndTime.setText(moduleResponse.getFeedbackEndTime().substring(0,16));
 
 
-            buttonEdit.setOnClickListener(view -> {
 
-            });
-
-            buttonDelete.setOnClickListener(view -> {
-
-            });
         }
 
     }
