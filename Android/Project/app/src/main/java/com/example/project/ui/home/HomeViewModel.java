@@ -1,19 +1,30 @@
 package com.example.project.ui.home;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.project.models.DoFeedbackResponse;
+import com.example.project.network.repositories.AppRepository;
+
+import java.util.List;
 
 public class HomeViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private AppRepository appRepository = new AppRepository();
+    private LiveData<List<DoFeedbackResponse>> doFeedbackResponseLiveData;
+
 
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        super();
+        doFeedbackResponseLiveData=appRepository.getDoFeedbackResponseLiveData();
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<DoFeedbackResponse>> getDoFeedbackResponseLiveData() {
+        return doFeedbackResponseLiveData;
+    }
+
+    public void feedbacks(String token,String traineeId){
+        appRepository.doFeedbacks(token,traineeId);
     }
 }

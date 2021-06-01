@@ -74,8 +74,8 @@
         tools:layout="@layout/fragment_question" />
     <fragment
         android:id="@+id/nav_contact"
-        android:name="com.example.project.ui.question.QuestionFragment"
+        android:name="com.example.project.ui.contact.ContactFragment"
         android:label="Class"
-        tools:layout="@layout/fragment_question" />
+        tools:layout="@layout/fragment_contact" />
 
 </navigation>

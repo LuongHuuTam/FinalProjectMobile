@@ -9,13 +9,16 @@ import com.example.project.models.Assignment;
 import com.example.project.models.ClassTraineeResponse;
 import com.example.project.models.ClassRequest;
 import com.example.project.models.ClassResponse;
+import com.example.project.models.DoFeedbackResponse;
 import com.example.project.models.EnrollmentResponse;
+import com.example.project.models.FeedbackResponse;
 import com.example.project.models.LoginRequest;
 import com.example.project.models.LoginResponse;
 import com.example.project.models.QuestionResponse;
 import com.example.project.network.apis.AssignmentService;
 import com.example.project.network.apis.ClassService;
 import com.example.project.network.apis.EnrollmentService;
+import com.example.project.network.apis.FeedbackService;
 import com.example.project.network.apis.LoginService;
 import com.example.project.network.apis.QuestionService;
 
@@ -36,6 +39,8 @@ public class AppRepository {
     private AssignmentService assignmentService;
     private EnrollmentService enrollmentService;
     private QuestionService questionService;
+    private FeedbackService feedbackService;
+
 
     private MutableLiveData<List<QuestionResponse>> questionResponseLiveData;
 
@@ -62,6 +67,9 @@ public class AppRepository {
     private MutableLiveData<String> loginFailureLiveData;
 
     private MutableLiveData<List<EnrollmentResponse>> enrollmentResponseLiveData;
+    private MutableLiveData<List<FeedbackResponse>> feedbackResponseLiveData;
+    private MutableLiveData<List<DoFeedbackResponse>> doFeedbackResponeLiveData;
+
 
     public AppRepository() {
         loginResponseLiveData = new MutableLiveData<>();
@@ -83,6 +91,8 @@ public class AppRepository {
         enrollmentResponseLiveData =new MutableLiveData<>();
 
         questionResponseLiveData =new MutableLiveData<>();
+        feedbackResponseLiveData=new MutableLiveData<>();
+        doFeedbackResponeLiveData=new MutableLiveData<>();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -122,6 +132,13 @@ public class AppRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(QuestionService.class);
+
+        feedbackService=new retrofit2.Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(FeedbackService.class);
     }
 
     //Login
@@ -397,6 +414,52 @@ public class AppRepository {
 
     public MutableLiveData<List<QuestionResponse>> getQuestionResponseLiveData(){
         return questionResponseLiveData;
+    }
+
+    //Get Feedback
+    public void feedbacks(String token){
+        feedbackService.getFeedbacks(token).enqueue(new Callback<List<FeedbackResponse>>() {
+            @Override
+            public void onResponse(Call<List<FeedbackResponse>> call, Response<List<FeedbackResponse>> response) {
+                if(response.body()!=null){
+                    feedbackResponseLiveData.postValue(response.body());
+                }
+                else {
+                    feedbackResponseLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<FeedbackResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+    public MutableLiveData<List<FeedbackResponse>> getFeedbackResponseLiveData(){
+        return feedbackResponseLiveData;
+    }
+
+    //Get do feedback
+    public void doFeedbacks(String token,String traineeId){
+        feedbackService.getFeedbacksTraineeDo(token,traineeId).enqueue(new Callback<List<DoFeedbackResponse>>() {
+            @Override
+            public void onResponse(Call<List<DoFeedbackResponse>> call, Response<List<DoFeedbackResponse>> response) {
+                if(response.body()!=null){
+                    doFeedbackResponeLiveData.postValue(response.body());
+                }
+                else {
+                    doFeedbackResponeLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DoFeedbackResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+    public MutableLiveData<List<DoFeedbackResponse>> getDoFeedbackResponseLiveData(){
+        return doFeedbackResponeLiveData;
     }
 }
 
