@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ClassAdapterTrainerTrainee extends RecyclerView.Adapter<ClassAdapterTrainerTrainee.ClassViewHolder> {
     private List<ClassResponse> trainerTraineeClassResponseList = new ArrayList();
-
+    private ClassDetail classDetail;
     @NonNull
     @NotNull
     @Override
@@ -65,10 +65,7 @@ public class ClassAdapterTrainerTrainee extends RecyclerView.Adapter<ClassAdapte
             traineeCount.setText(Integer.toString(classResponse.getEnrollmentsCount()));
 
             buttonDetail.setOnClickListener(view -> {
-
-            });
-            buttonDetail.setOnClickListener(view -> {
-                //do something
+                classDetail.onDetail(classResponse.getClassID());
             });
         }
 
@@ -79,4 +76,11 @@ public class ClassAdapterTrainerTrainee extends RecyclerView.Adapter<ClassAdapte
         notifyDataSetChanged();
     }
 
+    public interface ClassDetail{
+        void onDetail(int id);
+    }
+
+    public void setClassDetail(ClassDetail classDetail) {
+        this.classDetail = classDetail;
+    }
 }

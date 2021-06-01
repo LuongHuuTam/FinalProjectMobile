@@ -4,6 +4,7 @@ import android.graphics.drawable.shapes.OvalShape;
 
 import com.example.project.models.ClassRequest;
 import com.example.project.models.ClassResponse;
+import com.example.project.models.ClassTraineeResponse;
 
 import java.util.List;
 
@@ -27,6 +28,9 @@ public interface ClassService {
     @GET("Classes/{classId}")
     Call<ClassResponse> getClassInfo(@Header("Authorization")String token, @Path(value="classId",encoded = true) int classId);
 
+    @GET("Classes/trainee/{classId}")
+    Call<List<ClassTraineeResponse>> getClassDetail(@Header("Authorization") String token, @Path(value = "classId",encoded = true) int classId);
+
     @PUT("Classes/{classId}")
     Call<Void> updateClass(@Header("Authorization")String token, @Path(value="classId",encoded = true) int classId,@Body ClassRequest classRequest);
 
@@ -35,6 +39,7 @@ public interface ClassService {
 
     @DELETE("Classes/{classId}")
     Call<Void> deleteClass(@Header("Authorization")String token, @Path(value = "classId",encoded = true) int classId);
+
 
 
 }

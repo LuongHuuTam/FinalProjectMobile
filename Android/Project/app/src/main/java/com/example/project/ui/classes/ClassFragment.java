@@ -22,6 +22,7 @@ import com.example.project.R;
 import com.example.project.adapters.ClassAdapter;
 import com.example.project.adapters.ClassAdapterTrainerTrainee;
 import com.example.project.models.ClassResponse;
+import com.example.project.models.ClassTraineeResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
 import com.google.gson.Gson;
 
@@ -58,6 +59,7 @@ public class ClassFragment extends Fragment {
 
         if (role.equals("Admin")) {
             root = inflater.inflate(R.layout.fragment_class, container, false);
+
             ImageButton buttonAdd = root.findViewById(R.id.btn_add);
             buttonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,14 +72,7 @@ public class ClassFragment extends Fragment {
             root = inflater.inflate(R.layout.fragment_class_trainer_trainee, container, false);
         }
 
-        ImageButton buttonAdd = root.findViewById(R.id.btn_add);
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_nav_class_to_class_addClass);
-            }
-        });
         //put token to @Header
         classViewModel.classes(finalToken);
         classViewModel.trainerTraineeClass(token,role,userName);
@@ -111,22 +106,24 @@ public class ClassFragment extends Fragment {
             }
         });
 
+        classAdapterTrainerTrainee.setClassDetail(new ClassAdapterTrainerTrainee.ClassDetail() {
+            @Override
+            public void onDetail(int id) {
+                classViewModel.getGetClassDetailResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<ClassTraineeResponse>>() {
+                    @Override
+                    public void onChanged(List<ClassTraineeResponse> classTraineeResponses) {
+                        Gson gson = new Gson();
+                        String classDetailResponseData = gson.toJson(classTraineeResponses);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("CLASS_DETAIL_DATA", classDetailResponseData);
+                        Navigation.findNavController(root).navigate(R.id.action_nav_class_to_class_detailClass, bundle);
+                    }
+                });
+                classViewModel.getClassTraineeList(finalToken,id);
+            }
+        });
 
         RecyclerView recyclerView = root.findViewById(R.id.rv_classList);
-
-        if (role.equals("Admin")) {
-            recyclerView.setAdapter(classAdapter);
-            classViewModel.getClassResponseLiveData().observe(getViewLifecycleOwner(), (Observer<List<ClassResponse>>) classResponseList -> {
-                classAdapter.setClassResponseList(classResponseList);
-            });
-        } else {
-            recyclerView.setAdapter(classAdapterTrainerTrainee);
-            classViewModel.getTrainerClassResponseLiveData().observe(getViewLifecycleOwner(), (Observer<List<ClassResponse>>) trainerClassResponseList -> {
-                classAdapterTrainerTrainee.setTrainerClassResponseList(trainerClassResponseList);
-            });
-        }
-
-
 
         if (role.equals("Admin")) {
             recyclerView.setAdapter(classAdapter);
