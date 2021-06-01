@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.project.models.Assignment;
+import com.example.project.models.ModuleRequest;
 import com.example.project.models.class_models.ClassTraineeResponse;
 import com.example.project.models.class_models.ClassRequest;
 import com.example.project.models.class_models.ClassResponse;
@@ -45,6 +46,19 @@ public class AppRepository {
     private ModuleService moduleService;
 
     private MutableLiveData<List<ModuleResponse>> moduleResponseLiveData;
+
+    private MutableLiveData<String> addModuleResponseLiveData;
+    private MutableLiveData<String> addModuleFailureLiveData;
+
+    private MutableLiveData<String> deleteModuleResponseLiveData;
+    private MutableLiveData<String> deleteModuleFailureLiveData;
+
+    private MutableLiveData<ModuleResponse> getModuleInfoResponseLiveData;
+    private MutableLiveData<String> getModuleInfoFailureLiveData;
+
+    private MutableLiveData<String> updateModuleResponseLiveData;
+    private MutableLiveData<String> updateModuleFailureLiveData;
+
     private MutableLiveData<List<QuestionResponse>> questionResponseLiveData;
 
     private MutableLiveData<List<Assignment>> assignmentResponseLiveData;
@@ -59,7 +73,7 @@ public class AppRepository {
     private MutableLiveData<String> deleteClassFailureLiveData;
 
     private MutableLiveData<Void> updateClassResponseLiveData;
-    private MutableLiveData<String> updateFailureLiveData;
+    private MutableLiveData<String> updateClassFailureLiveData;
 
     private MutableLiveData<ClassResponse> getClassInfoResponseLiveData;
 
@@ -71,7 +85,7 @@ public class AppRepository {
 
     private MutableLiveData<List<EnrollmentResponse>> enrollmentResponseLiveData;
     private MutableLiveData<List<FeedbackResponse>> feedbackResponseLiveData;
-    private MutableLiveData<List<DoFeedbackResponse>> doFeedbackResponeLiveData;
+    private MutableLiveData<List<DoFeedbackResponse>> doFeedbackResponseLiveData;
 
 
     public AppRepository() {
@@ -85,6 +99,7 @@ public class AppRepository {
         deleteClassResponseLiveData = new MutableLiveData<>();
         deleteClassFailureLiveData = new MutableLiveData<>();
         updateClassResponseLiveData = new MutableLiveData<>();
+        updateClassFailureLiveData = new MutableLiveData<>();
         getClassInfoResponseLiveData = new MutableLiveData<>();
         getClassDetailLiveData = new MutableLiveData<>();
         getClassDetailFailureLiveData = new MutableLiveData<>();
@@ -94,9 +109,20 @@ public class AppRepository {
         enrollmentResponseLiveData =new MutableLiveData<>();
 
         questionResponseLiveData =new MutableLiveData<>();
+
         feedbackResponseLiveData=new MutableLiveData<>();
-        doFeedbackResponeLiveData=new MutableLiveData<>();
+
+        doFeedbackResponseLiveData=new MutableLiveData<>();
+
         moduleResponseLiveData=new MutableLiveData<>();
+        addModuleResponseLiveData = new MutableLiveData<>();
+        addModuleFailureLiveData = new MutableLiveData<>();
+        deleteModuleResponseLiveData = new MutableLiveData<>();
+        deleteModuleFailureLiveData = new MutableLiveData<>();
+        getModuleInfoResponseLiveData = new MutableLiveData<>();
+        getModuleInfoFailureLiveData = new MutableLiveData<>();
+        updateModuleResponseLiveData = new MutableLiveData<>();
+        updateModuleFailureLiveData = new MutableLiveData<>();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -257,12 +283,12 @@ public class AppRepository {
                 if(response.isSuccessful()){
                     updateClassResponseLiveData.postValue(response.body());
                 } else
-                    updateFailureLiveData.postValue("Update fail");
+                    updateClassFailureLiveData.postValue("Update fail");
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                updateFailureLiveData.postValue(t.getLocalizedMessage());
+                updateClassFailureLiveData.postValue(t.getLocalizedMessage());
             }
         });
     }
@@ -272,7 +298,7 @@ public class AppRepository {
     }
 
     public MutableLiveData<String> getUpdateFailureLiveData() {
-        return updateFailureLiveData;
+        return updateClassFailureLiveData;
     }
 
     //Delete class
@@ -456,10 +482,10 @@ public class AppRepository {
             @Override
             public void onResponse(Call<List<DoFeedbackResponse>> call, Response<List<DoFeedbackResponse>> response) {
                 if(response.body()!=null){
-                    doFeedbackResponeLiveData.postValue(response.body());
+                    doFeedbackResponseLiveData.postValue(response.body());
                 }
                 else {
-                    doFeedbackResponeLiveData.postValue(new ArrayList<>());
+                    doFeedbackResponseLiveData.postValue(new ArrayList<>());
                 }
             }
 
@@ -470,7 +496,7 @@ public class AppRepository {
         });
     }
     public MutableLiveData<List<DoFeedbackResponse>> getDoFeedbackResponseLiveData(){
-        return doFeedbackResponeLiveData;
+        return doFeedbackResponseLiveData;
     }
 
     //Get module
@@ -495,6 +521,109 @@ public class AppRepository {
 
     public MutableLiveData<List<ModuleResponse>> getModuleResponseLiveData(){
         return moduleResponseLiveData;
+    }
+
+    //Add module
+    public void addModule(String token, ModuleRequest moduleRequest){
+        moduleService.addModule(token,moduleRequest).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    addModuleResponseLiveData.postValue(response.body());
+                }else
+                    addModuleFailureLiveData.postValue("Fail");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                addModuleFailureLiveData.postValue(t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<String> getAddModuleResponseLiveData() {
+        return addModuleResponseLiveData;
+    }
+
+    public MutableLiveData<String> getAddModuleFailureLiveData() {
+        return addModuleFailureLiveData;
+    }
+
+   public void deleteModule(String token, int moduleId){
+        moduleService.deleteModule(token,moduleId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    deleteModuleResponseLiveData.postValue(response.body());
+                }
+                else
+                    deleteModuleFailureLiveData.postValue("Fail to delete");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                deleteModuleFailureLiveData.postValue(t.getLocalizedMessage());
+            }
+        });
+   }
+
+    public MutableLiveData<String> getDeleteModuleResponseLiveData() {
+        return deleteModuleResponseLiveData;
+    }
+
+    public MutableLiveData<String> getDeleteModuleFailureLiveData() {
+        return deleteModuleFailureLiveData;
+    }
+
+    //Get Module information
+    public void getModuleInfo(String token, int moduleId){
+        moduleService.getModuleInfo(token, moduleId).enqueue(new Callback<ModuleResponse>() {
+            @Override
+            public void onResponse(Call<ModuleResponse> call, Response<ModuleResponse> response) {
+                if(response.body()!=null){
+                    getModuleInfoResponseLiveData.postValue(response.body());
+                } else{
+                    getModuleInfoFailureLiveData.postValue("Fail to get module information");
+                }
+            }
+            @Override
+            public void onFailure(Call<ModuleResponse> call, Throwable t) {
+                getModuleInfoFailureLiveData.postValue(t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<ModuleResponse> getGetModuleInfoResponseLiveData() {
+        return getModuleInfoResponseLiveData;
+    }
+
+    public MutableLiveData<String> getGetModuleInfoFailureLiveData() {
+        return getModuleInfoFailureLiveData;
+    }
+
+    public void updateModule(String token, int moduleId, ModuleRequest moduleRequest){
+        moduleService.updateModule(token,moduleId,moduleRequest).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    updateModuleResponseLiveData.postValue(response.body());
+                } else {
+                    updateModuleFailureLiveData.postValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                updateModuleFailureLiveData.postValue(t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<String> getUpdateModuleResponseLiveData() {
+        return updateModuleResponseLiveData;
+    }
+
+    public MutableLiveData<String> getUpdateModuleFailureLiveData() {
+        return updateModuleFailureLiveData;
     }
 }
 

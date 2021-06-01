@@ -21,6 +21,7 @@ public class ClassViewModel extends ViewModel {
     private LiveData<Void> updateClassResponseLiveData;
     private LiveData<List<ClassTraineeResponse>> getClassDetailResponseLiveData;
     private LiveData<String> getClassDetailFailureLiveData;
+
     public ClassViewModel() {
         super();
         classResponseLiveData = appRepository.getClassResponseLiveData();

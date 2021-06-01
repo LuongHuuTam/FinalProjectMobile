@@ -53,7 +53,6 @@ public class AddClassFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         root = inflater.inflate(R.layout.fragment_class_add_class,container,false);
         classViewModel = new ViewModelProvider(this).get(ClassViewModel.class);
         classname = root.findViewById(R.id.add_class_name);
@@ -64,7 +63,7 @@ public class AddClassFragment extends Fragment {
         dateTimePicker = Calendar.getInstance();
         alertDialogBuilder = new AlertDialog.Builder(requireContext());
 
-        layoutClassname = root.findViewById(R.id.outlinedClassName);
+        layoutClassname = root.findViewById(R.id.outlineTextClassName);
         layoutCapacity = root.findViewById(R.id.outlinedTextCapacity);
         layoutStartDate = root.findViewById(R.id.outlinedTextStartDay);
         layoutEndDate = root.findViewById(R.id.outlinedTextEndDay);
@@ -153,8 +152,6 @@ public class AddClassFragment extends Fragment {
             }
         });
 
-
-
         if(SharedPreferencesManager.getLoginResponseValue(requireContext())!=null){
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
         }
@@ -199,7 +196,6 @@ public class AddClassFragment extends Fragment {
                     // create alert dialog
                     AlertDialog alertDialog = alertDialogBuilder.create();
 
-// show it
                     alertDialog.show();
                 }
                 else{
@@ -220,7 +216,6 @@ public class AddClassFragment extends Fragment {
         if(token!=null) {
             classViewModel.addClasses(token, classRequest);
         }
-
 
     }
     private void updateLabelStartDay() {
