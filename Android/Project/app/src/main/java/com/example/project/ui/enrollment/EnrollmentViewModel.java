@@ -16,7 +16,6 @@ public class EnrollmentViewModel extends ViewModel {
     public EnrollmentViewModel() {
         super();
         enrollmentResponseLiveData=appRepository.getEnrollmentResponseLiveData();
-
     }
 
     public LiveData<List<EnrollmentResponse>> getEnrollmentResponseLiveData() {

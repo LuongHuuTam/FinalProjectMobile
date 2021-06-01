@@ -80,4 +80,12 @@ public class ClassResponse {
     public String toString() {
         return name;
     }
+
+    public ClassResponse() {
+    }
+
+    public ClassResponse(int classID, String name) {
+        this.classID = classID;
+        this.name = name;
+    }
 }
