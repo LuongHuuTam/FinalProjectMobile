@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassFragment extends Fragment {
-    ClassViewModel classViewModel;
     private ClassAdapter classAdapter;
     private ClassAdapterTrainerTrainee classAdapterTrainerTrainee;
 
@@ -45,17 +44,19 @@ public class ClassFragment extends Fragment {
         String userName ="";
         View root;
         String finalToken = token;
-        //put token to @Header
-        classViewModel.classes(finalToken);
-        classViewModel.trainerTraineeClass(token,role,userName);
-        classAdapter = new ClassAdapter();
-        classAdapterTrainerTrainee = new ClassAdapterTrainerTrainee();
+
 
         if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
             role = SharedPreferencesManager.getLoginResponseValue(requireContext()).getRole();
             userName = SharedPreferencesManager.getLoginResponseValue(requireContext()).getUsername();
         }
+
+        //put token to @Header
+        classViewModel.classes(finalToken);
+        classViewModel.trainerTraineeClass(token,role,userName);
+        classAdapter = new ClassAdapter();
+        classAdapterTrainerTrainee = new ClassAdapterTrainerTrainee();
 
         if (role.equals("Admin")) {
             root = inflater.inflate(R.layout.fragment_class, container, false);
@@ -71,13 +72,6 @@ public class ClassFragment extends Fragment {
         } else {
             root = inflater.inflate(R.layout.fragment_class_trainer_trainee, container, false);
         }
-
-
-        //put token to @Header
-        classViewModel.classes(finalToken);
-        classViewModel.trainerTraineeClass(token,role,userName);
-        classAdapter = new ClassAdapter();
-        classAdapterTrainerTrainee = new ClassAdapterTrainerTrainee();
 
 
         //
@@ -109,17 +103,9 @@ public class ClassFragment extends Fragment {
         classAdapterTrainerTrainee.setClassDetail(new ClassAdapterTrainerTrainee.ClassDetail() {
             @Override
             public void onDetail(int id) {
-                classViewModel.getGetClassDetailResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<ClassTraineeResponse>>() {
-                    @Override
-                    public void onChanged(List<ClassTraineeResponse> classTraineeResponses) {
-                        Gson gson = new Gson();
-                        String classDetailResponseData = gson.toJson(classTraineeResponses);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("CLASS_DETAIL_DATA", classDetailResponseData);
-                        Navigation.findNavController(root).navigate(R.id.action_nav_class_to_class_detailClass, bundle);
-                    }
-                });
-                classViewModel.getClassTraineeList(finalToken,id);
+                Bundle bundle = new Bundle();
+                bundle.putInt("CLASS_ID", id);
+                Navigation.findNavController(root).navigate(R.id.action_nav_class_to_class_detailClass,bundle);
             }
         });
 

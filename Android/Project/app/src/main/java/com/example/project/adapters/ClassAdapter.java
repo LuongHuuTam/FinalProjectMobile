@@ -108,11 +108,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
 
 // show it
                     alertDialog.show();
-
                 }
             });
         }
-
     }
 
     public void setClassResponseList(List<ClassResponse> classResponseList) {

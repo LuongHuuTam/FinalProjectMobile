@@ -50,19 +50,19 @@
             android:layout_height="wrap_content"
             >
             <TextView
-                android:id="@+id/class_name"
+                android:id="@+id/trainee_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:text="Class ID: "
+                android:text="Trainee ID: "
                 />
             <TextView
-                android:id="@+id/detail_class_name"
+                android:id="@+id/detail_trainee_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                tools:text="Class Name:"
+                tools:text="Trainee Id"
                 />
         </LinearLayout>
 
