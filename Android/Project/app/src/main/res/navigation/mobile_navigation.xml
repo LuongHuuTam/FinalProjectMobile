@@ -30,6 +30,9 @@
             android:id="@+id/action_nav_class_to_class_editClass"
             app:destination="@id/class_editClass"
             app:popUpTo="@+id/nav_class"/>
+        <action
+            android:id="@+id/action_nav_class_to_class_detailClass"
+            app:destination="@id/class_detailClass" />
     </fragment>
     <fragment android:id="@+id/class_addClass"
         android:name="com.example.project.ui.classes.AddClassFragment"
@@ -39,6 +42,11 @@
         android:name="com.example.project.ui.classes.EditClassFragment"
         android:label="Edit Class"
         tools:layout="@layout/fragment_class_edit_class"/>
+    <fragment android:id="@+id/class_detailClass"
+        android:name="com.example.project.ui.classes.ClassDetailFragment"
+        android:label="Detail Class"
+        tools:layout="@layout/fragment_class_detail"
+        />
     <fragment
         android:id="@+id/nav_module"
         android:name="com.example.project.ui.module.ModuleFragment"

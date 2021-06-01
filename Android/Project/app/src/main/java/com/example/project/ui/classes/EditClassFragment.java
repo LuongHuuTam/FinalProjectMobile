@@ -89,6 +89,7 @@ public class EditClassFragment extends Fragment {
             Type token = new TypeToken<ClassResponse>() {
             }.getType();
             classResponse = gson.fromJson(classData, token);
+
             if (classResponse != null) {
                 classname.setText(classResponse.getName());
                 capacity.setText(Integer.toString(classResponse.getCapacity()));

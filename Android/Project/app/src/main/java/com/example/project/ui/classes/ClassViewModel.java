@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.project.models.ClassRequest;
 import com.example.project.models.ClassResponse;
+import com.example.project.models.ClassTraineeResponse;
 import com.example.project.models.LoginRequest;
 import com.example.project.network.repositories.AppRepository;
 
@@ -19,7 +20,8 @@ public class ClassViewModel extends ViewModel {
     private LiveData<ClassResponse> getClassInfoResponseLiveData;
     private LiveData<Void> deleteClassResponseLiveData;
     private LiveData<Void> updateClassResponseLiveData;
-
+    private LiveData<List<ClassTraineeResponse>> getClassDetailResponseLiveData;
+    private LiveData<String> getClassDetailFailureLiveData;
     public ClassViewModel() {
         super();
         classResponseLiveData = appRepository.getClassResponseLiveData();
@@ -29,6 +31,8 @@ public class ClassViewModel extends ViewModel {
         getClassInfoResponseLiveData = appRepository.getGetClassInfoResponseLiveData();
         deleteClassResponseLiveData = appRepository.getDeleteClassResponseLiveData();
         updateClassResponseLiveData = appRepository.getUpdateClassResponseLiveData();
+        getClassDetailResponseLiveData = appRepository.getGetClassDetailLiveData();
+        getClassDetailFailureLiveData = appRepository.getGetClassDetailFailureLiveData();
 
     }
 
@@ -59,6 +63,14 @@ public class ClassViewModel extends ViewModel {
         return updateClassResponseLiveData;
     }
 
+    public LiveData<List<ClassTraineeResponse>> getGetClassDetailResponseLiveData() {
+        return getClassDetailResponseLiveData;
+    }
+
+    public LiveData<String> getGetClassDetailFailureLiveData() {
+        return getClassDetailFailureLiveData;
+    }
+
     public void classes(String token){
         appRepository.classes(token);
     }
@@ -72,5 +84,7 @@ public class ClassViewModel extends ViewModel {
     public void deleteClass(String token, int Id){appRepository.deleteClass(token,Id);}
 
     public void updateClass(String token, int Id, ClassRequest classRequest){appRepository.updateClass(token,Id,classRequest);}
+
+    public void getClassTraineeList(String token, int classId){appRepository.getClassDetail(token,classId);}
 
 }

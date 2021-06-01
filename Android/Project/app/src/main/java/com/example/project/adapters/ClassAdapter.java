@@ -95,7 +95,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     classDelete.onDelete(classResponse.getClassID());
                                     Toast.makeText(itemView.getContext(), "Delete success", Toast.LENGTH_SHORT).show();
-
                                 }
                             })
                             .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {

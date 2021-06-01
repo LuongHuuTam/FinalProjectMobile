@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.project.models.Assignment;
+import com.example.project.models.ClassTraineeResponse;
 import com.example.project.models.ClassRequest;
 import com.example.project.models.ClassResponse;
 import com.example.project.models.EnrollmentResponse;
@@ -54,6 +55,9 @@ public class AppRepository {
 
     private MutableLiveData<ClassResponse> getClassInfoResponseLiveData;
 
+    private MutableLiveData<List<ClassTraineeResponse>> getClassDetailLiveData;
+    private MutableLiveData<String> getClassDetailFailureLiveData;
+
     private MutableLiveData<LoginResponse> loginResponseLiveData;
     private MutableLiveData<String> loginFailureLiveData;
 
@@ -71,6 +75,8 @@ public class AppRepository {
         deleteClassFailureLiveData = new MutableLiveData<>();
         updateClassResponseLiveData = new MutableLiveData<>();
         getClassInfoResponseLiveData = new MutableLiveData<>();
+        getClassDetailLiveData = new MutableLiveData<>();
+        getClassDetailFailureLiveData = new MutableLiveData<>();
 
         assignmentResponseLiveData = new MutableLiveData<>();
 
@@ -190,6 +196,31 @@ public class AppRepository {
         return getClassInfoResponseLiveData;
     }
 
+    //Get Class Detail
+    public void getClassDetail(String token, int classId){
+        classService.getClassDetail("Bearer " + token,classId).enqueue(new Callback<List<ClassTraineeResponse>>() {
+            @Override
+            public void onResponse(Call<List<ClassTraineeResponse>> call, Response<List<ClassTraineeResponse>> response) {
+                if(response.body()!=null){
+                    getClassDetailLiveData.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ClassTraineeResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public MutableLiveData<List<ClassTraineeResponse>> getGetClassDetailLiveData() {
+        return getClassDetailLiveData;
+    }
+
+    public MutableLiveData<String> getGetClassDetailFailureLiveData() {
+        return getClassDetailFailureLiveData;
+    }
+
     //Update class
     public void updateClass(String token, int classId, ClassRequest classRequest){
         classService.updateClass("Bearer " + token, classId,classRequest).enqueue(new Callback<Void>() {
@@ -271,7 +302,7 @@ public class AppRepository {
         return addClassFailureLiveData;
     }
 
-    //Get trainee trainer class
+    //Get trainer and trainee class
     public void trainerTraineeClass(String token, String role, String username){
         classService.gettrainerTraineeClass("Bearer " + token, role, username).enqueue(new Callback<List<ClassResponse>>() {
             @Override
