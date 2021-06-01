@@ -20,8 +20,8 @@ namespace FeedbackApp.WebApi.Controllers
         public async Task<IActionResult> AddModule([FromBody] ModuleVm request)
         {
             if (await _moduleService.AddModule(request))
-                return Ok();
-            return BadRequest("False");
+                return Ok("Successfull");
+            return BadRequest("Mudule is exist");
         }
 
 
@@ -29,8 +29,8 @@ namespace FeedbackApp.WebApi.Controllers
         public async Task<IActionResult> EditModule(int moduleId, [FromBody] ModuleVm request)
         {
             if (await _moduleService.EditModule(moduleId, request))
-                return Ok();
-            return BadRequest("False");
+                return Ok("Successfull");
+            return BadRequest("Mudule is exist");
         }
 
         [HttpGet]
@@ -49,7 +49,7 @@ namespace FeedbackApp.WebApi.Controllers
         public async Task<IActionResult> Delete(int moduleId)
         {
             if (await _moduleService.DeleteModule(moduleId))
-                return Ok();
+                return Ok("Successfull");
             return BadRequest("False");
         }
     }

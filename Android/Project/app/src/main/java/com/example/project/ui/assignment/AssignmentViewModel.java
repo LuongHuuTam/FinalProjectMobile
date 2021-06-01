@@ -1,11 +1,9 @@
 package com.example.project.ui.assignment;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.project.models.Assignment;
-import com.example.project.models.ClassResponse;
 import com.example.project.network.repositories.AppRepository;
 
 import java.util.List;

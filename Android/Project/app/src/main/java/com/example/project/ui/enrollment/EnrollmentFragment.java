@@ -15,16 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
 import com.example.project.adapters.EnrollmentAdapter;
-import com.example.project.models.ClassResponse;
+import com.example.project.models.class_models.ClassResponse;
 import com.example.project.models.EnrollmentResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EnrollmentFragment extends Fragment {
 
     private EnrollmentViewModel enrollmentViewModel;
     private EnrollmentAdapter enrollmentAdapter;
+    private List<ClassResponse> classResponseList = new ArrayList();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,8 +40,17 @@ public class EnrollmentFragment extends Fragment {
         if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
         }
-        enrollmentViewModel.enrollments(token,classId);
 
+        RecyclerView recyclerView = root.findViewById(R.id.rv_enrollmentList);
+        AutoCompleteTextView textView= root.findViewById(R.id.e_class_selector);
+
+        setTextView(token,container,textView);
+        setRecyclerView(token,classId,recyclerView);
+        return root;
+    }
+
+    private void setRecyclerView(String token, int classId, RecyclerView recyclerView){
+        enrollmentViewModel.enrollments(token,classId);
         enrollmentAdapter=new EnrollmentAdapter();
 
 
@@ -49,18 +60,20 @@ public class EnrollmentFragment extends Fragment {
 
             }
         });
-        RecyclerView recyclerView = root.findViewById(R.id.rv_enrollmentList);
+
         recyclerView.setAdapter(enrollmentAdapter);
-
-        AutoCompleteTextView classSelector = root.findViewById((R.id.e_class_selector));
-        List<ClassResponse> options = enrollmentViewModel.getClassResponseLiveData().getValue();
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(container.getContext(),R.layout.list_item,options);
-        classSelector.setAdapter(arrayAdapter);
-
         enrollmentViewModel.getEnrollmentResponseLiveData().observe(getViewLifecycleOwner(), (Observer<List<EnrollmentResponse>>) enrollmentResponseList -> {
             enrollmentAdapter.setEnrollmentResponsesList(enrollmentResponseList);
         });
-        return root;
+    }
+    private void setTextView(String token,ViewGroup container,AutoCompleteTextView textView){
+//        enrollmentViewModel.getClassResponseLiveData().observe(getViewLifecycleOwner(),(Observer<List<ClassResponse>>) classResponseLists->{
+//            enrollmentFragment.setClassResponseList(classResponseLists);
+//        });
+        List<ClassResponse> cls=classResponseList;
+        ClassResponse cl=new ClassResponse(0,"All");
+        cls.add(0,cl);
+        ArrayAdapter arrayAdapter=new ArrayAdapter(container.getContext(),R.layout.list_item,cls);
+        textView.setAdapter(arrayAdapter);
     }
 }

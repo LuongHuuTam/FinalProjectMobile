@@ -1,6 +1,5 @@
 package com.example.project.ui.classes;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +14,15 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.adapters.ClassAdapter;
-import com.example.project.adapters.ClassAdapterTrainerTrainee;
-import com.example.project.models.ClassResponse;
+import com.example.project.adapters.class_adapters.ClassAdapter;
+import com.example.project.adapters.class_adapters.ClassAdapterTrainerTrainee;
+import com.example.project.models.class_models.ClassResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 public class ClassFragment extends Fragment {
-
     private ClassAdapter classAdapter;
     private ClassAdapterTrainerTrainee classAdapterTrainerTrainee;
 
@@ -35,6 +34,8 @@ public class ClassFragment extends Fragment {
         String role = "";
         String userName ="";
         View root;
+        String finalToken = token;
+
 
         if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
@@ -42,31 +43,60 @@ public class ClassFragment extends Fragment {
             userName = SharedPreferencesManager.getLoginResponseValue(requireContext()).getUsername();
         }
 
+        //put token to @Header
+        classViewModel.classes(finalToken);
+        classViewModel.trainerTraineeClass(token,role,userName);
+        classAdapter = new ClassAdapter();
+        classAdapterTrainerTrainee = new ClassAdapterTrainerTrainee();
+
         if (role.equals("Admin")) {
             root = inflater.inflate(R.layout.fragment_class, container, false);
+
+            ImageButton buttonAdd = root.findViewById(R.id.btn_add);
+            buttonAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Navigation.findNavController(view).navigate(R.id.action_nav_class_to_class_addClass);
+                }
+            });
+
         } else {
             root = inflater.inflate(R.layout.fragment_class_trainer_trainee, container, false);
         }
 
-        ImageButton buttonAdd = root.findViewById(R.id.btn_add);
-
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_nav_class_to_class_addClass);
-            }
-        });
-        //put token to @Header
-        classViewModel.classes(token);
-        classViewModel.trainertraineeclass(token,role,userName);
-        classAdapter = new ClassAdapter();
-        classAdapterTrainerTrainee = new ClassAdapterTrainerTrainee();
 
         //
-        classAdapter.setClassListener(new ClassAdapter.ClassListener() {
+        classAdapter.setClassDelete(new ClassAdapter.ClassDelete() {
             @Override
             public void onDelete(int id) {
-//                classViewModel.deleteClass(id);
+                classViewModel.deleteClass(finalToken,id);
+            }
+        });
+
+
+        classAdapter.setClassEdit(new ClassAdapter.ClassEdit() {
+            @Override
+            public void onEdit(int id) {
+                classViewModel.getGetClassInfoResponseLiveData().observe(getViewLifecycleOwner(), new Observer<ClassResponse>() {
+                    @Override
+                    public void onChanged(ClassResponse classResponse) {
+                        Gson gson = new Gson();
+                        String classResponseData = gson.toJson(classResponse);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("CLASS_DATA", classResponseData);
+                        Navigation.findNavController(root).navigate(R.id.action_nav_class_to_class_editClass, bundle);
+                    }
+                });
+                classViewModel.getClassInfo(finalToken,id);
+            }
+        });
+
+        classAdapterTrainerTrainee.setClassDetail(new ClassAdapterTrainerTrainee.ClassDetail() {
+            @Override
+            public void onDetail(int id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("CLASS_ID", id);
+                Navigation.findNavController(root).navigate(R.id.action_nav_class_to_class_detailClass,bundle);
             }
         });
 
@@ -83,7 +113,7 @@ public class ClassFragment extends Fragment {
                 classAdapterTrainerTrainee.setTrainerClassResponseList(trainerClassResponseList);
             });
         }
-
         return root;
     }
+
 }

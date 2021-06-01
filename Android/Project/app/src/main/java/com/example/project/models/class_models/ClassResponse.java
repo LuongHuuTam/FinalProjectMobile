@@ -1,4 +1,4 @@
-package com.example.project.models;
+package com.example.project.models.class_models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -79,5 +79,13 @@ public class ClassResponse {
     @Override
     public String toString() {
         return name;
+    }
+
+    public ClassResponse() {
+    }
+
+    public ClassResponse(int classID, String name) {
+        this.classID = classID;
+        this.name = name;
     }
 }

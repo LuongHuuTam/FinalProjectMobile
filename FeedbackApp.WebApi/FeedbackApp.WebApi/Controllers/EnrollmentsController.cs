@@ -35,8 +35,8 @@ namespace FeedbackApp.WebApi.Controllers
         public async Task<IActionResult> Update([FromBody] EnrollmentVm request)
         {
             if (await _enrollmentService.Update(request))
-                return Ok();
-            return BadRequest("False");
+                return Ok("Successfull");
+            return BadRequest("Trainee is in class");
         }
 
         [HttpPost]

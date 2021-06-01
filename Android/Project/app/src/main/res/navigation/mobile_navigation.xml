@@ -26,16 +26,40 @@
         <action
             android:id="@+id/action_nav_class_to_class_addClass"
             app:destination="@id/class_addClass" />
+        <action
+            android:id="@+id/action_nav_class_to_class_editClass"
+            app:destination="@id/class_editClass"
+            app:popUpTo="@+id/nav_class"/>
+        <action
+            android:id="@+id/action_nav_class_to_class_detailClass"
+            app:destination="@id/class_detailClass" />
     </fragment>
     <fragment android:id="@+id/class_addClass"
         android:name="com.example.project.ui.classes.AddClassFragment"
         android:label="Add Class"
         tools:layout="@layout/fragment_class_add_class"/>
+    <fragment android:id="@+id/class_editClass"
+        android:name="com.example.project.ui.classes.EditClassFragment"
+        android:label="Edit Class"
+        tools:layout="@layout/fragment_class_edit_class"/>
+    <fragment android:id="@+id/class_detailClass"
+        android:name="com.example.project.ui.classes.ClassDetailFragment"
+        android:label="Detail Class"
+        tools:layout="@layout/fragment_class_detail"
+        />
     <fragment
         android:id="@+id/nav_module"
         android:name="com.example.project.ui.module.ModuleFragment"
         android:label="Class"
-        tools:layout="@layout/fragment_module" />
+        tools:layout="@layout/fragment_module" >
+        <action
+            android:id="@+id/action_nav_module_to_module_add_module"
+            app:destination="@id/module_add_module" />
+    </fragment>
+    <fragment android:id="@+id/module_add_module"
+        android:name="com.example.project.ui.module.AddModuleFragment"
+        android:label="Add Module"
+        tools:layout="@layout/fragment_module_add_module"/>
     <fragment
         android:id="@+id/nav_enrollment"
         android:name="com.example.project.ui.enrollment.EnrollmentFragment"
@@ -58,8 +82,8 @@
         tools:layout="@layout/fragment_question" />
     <fragment
         android:id="@+id/nav_contact"
-        android:name="com.example.project.ui.question.QuestionFragment"
+        android:name="com.example.project.ui.contact.ContactFragment"
         android:label="Class"
-        tools:layout="@layout/fragment_question" />
+        tools:layout="@layout/fragment_contact" />
 
 </navigation>
