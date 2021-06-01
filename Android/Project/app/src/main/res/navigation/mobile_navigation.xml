@@ -51,7 +51,15 @@
         android:id="@+id/nav_module"
         android:name="com.example.project.ui.module.ModuleFragment"
         android:label="Class"
-        tools:layout="@layout/fragment_module" />
+        tools:layout="@layout/fragment_module" >
+        <action
+            android:id="@+id/action_nav_module_to_module_add_module"
+            app:destination="@id/module_add_module" />
+    </fragment>
+    <fragment android:id="@+id/module_add_module"
+        android:name="com.example.project.ui.module.AddModuleFragment"
+        android:label="Add Module"
+        tools:layout="@layout/fragment_module_add_module"/>
     <fragment
         android:id="@+id/nav_enrollment"
         android:name="com.example.project.ui.enrollment.EnrollmentFragment"

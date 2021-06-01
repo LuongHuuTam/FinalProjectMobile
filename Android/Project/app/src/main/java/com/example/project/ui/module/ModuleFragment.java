@@ -4,17 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
 import com.example.project.adapters.ModuleAdapter;
 import com.example.project.models.ModuleResponse;
+import com.example.project.models.class_models.ClassResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -28,6 +34,13 @@ public class ModuleFragment extends Fragment {
                 new ViewModelProvider(this).get(ModuleViewModel.class);
         View root = inflater.inflate(R.layout.fragment_module, container, false);
         String token = "";
+        ImageButton buttonAddModule = root.findViewById(R.id.m_btn_add);
+        buttonAddModule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_nav_module_to_module_add_module);
+            }
+        });
 
         if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
@@ -35,21 +48,44 @@ public class ModuleFragment extends Fragment {
 
         moduleViewModel.modules(token);
         moduleAdapter=new ModuleAdapter();
-        moduleAdapter.setModuleListener(new ModuleAdapter.ModuleListener() {
+        String finalToken = token;
+        moduleAdapter.setModuleDelete(new ModuleAdapter.ModuleDelete() {
             @Override
-            public void onDelete(int id) {
+            public void onDelete(int moduleId) {
+                if(finalToken !=null){
+                    moduleViewModel.deleteModule(finalToken,moduleId);
+                }
+                Toast.makeText(root.getContext(), "Delete success", Toast.LENGTH_SHORT).show();
+            }
+        });
+        moduleAdapter.setModuleEdit(new ModuleAdapter.ModuleEdit() {
+            @Override
+            public void onEdit(int moduleId) {
+                moduleViewModel.getGetModuleInfoResponseLiveData().observe(getViewLifecycleOwner(), new Observer<ModuleResponse>() {
+                    @Override
+                    public void onChanged(ModuleResponse moduleResponse) {
+                        Gson gson = new Gson();
+                        String moduleResponseData = gson.toJson(moduleResponse);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("MODULE_DATA", moduleResponseData);
+                        Navigation.findNavController(root).navigate(R.id.action_nav_module_to_module_add_module, bundle);
+                    }
+                });
+                if(finalToken != null){
+                    moduleViewModel.getModuleInfo(finalToken,moduleId);
 
+                }
             }
         });
 
         RecyclerView recyclerView = root.findViewById(R.id.rv_module);
         recyclerView.setAdapter(moduleAdapter);
 
-
         moduleViewModel.getModuleResponseLiveData().observe(getViewLifecycleOwner(), (Observer<List<ModuleResponse>>) moduleResponseList -> {
             moduleAdapter.setModuleResponseList(moduleResponseList);
         });
 
         return root;
+
     }
 }
