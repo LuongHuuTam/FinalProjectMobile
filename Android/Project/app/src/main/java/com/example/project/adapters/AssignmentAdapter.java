@@ -95,9 +95,10 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    assignmentListener.onDelete(assignment.getClassID(),
-                                            assignment.getModuleID(),
+                                    assignmentDelete.onDelete(assignment.getModuleID(),
+                                            assignment.getClassID(),
                                             assignment.getTrainerID());
+                                    notifyDataSetChanged();
                                 }
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

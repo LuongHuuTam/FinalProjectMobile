@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.project.models.Assignment;
 import com.example.project.models.AssignmentRequest;
-import com.example.project.models.ModuleResponse;
 import com.example.project.network.repositories.AppRepository;
 
 import java.util.List;
