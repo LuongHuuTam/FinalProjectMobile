@@ -106,5 +106,4 @@
         android:name="com.example.project.ui.assignment.AddAssignmentFragment"
         android:label="fragment_add_assignment"
         tools:layout="@layout/fragment_add_assignment" />
-
 </navigation>

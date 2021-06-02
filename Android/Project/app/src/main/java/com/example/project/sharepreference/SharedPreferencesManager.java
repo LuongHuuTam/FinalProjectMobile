@@ -13,7 +13,6 @@ public class SharedPreferencesManager {
     // properties
     private static final String LOGIN_RESPONSE = "LoginResponse";
 
-    private static final String CLASS_INFO_RESPONSE = "ClassInfoResponse";
     // other properties...
 
 
@@ -37,6 +36,8 @@ public class SharedPreferencesManager {
         editor.putString(LOGIN_RESPONSE , json);
         editor.commit();
     }
+
+
 
 //    public static ClassResponse getClassInfoResponseValue(Context context){
 //        Gson gson = new Gson();

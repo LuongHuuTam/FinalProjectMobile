@@ -44,7 +44,6 @@ public class HomeFragment extends Fragment {
             homeAdapterTrainee=new HomeTraineeAdapter();
             homeViewModel.feedbacks(token,username);
 
-
             homeAdapterTrainee.setDoFeedbackListener(new HomeTraineeAdapter.DoFeedbackListener() {
                 @Override
                 public void onDelete(int id) {

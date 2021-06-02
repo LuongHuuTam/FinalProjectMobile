@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.example.project.R;
 import com.example.project.sharepreference.SharedPreferencesManager;
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setNavigationViewListener();
 
         String role ="";
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //set up navigation bar for each role
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         if (role.equals("Admin")) {
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.admin_menu_drawer);
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_assignment, R.id.nav_class, R.id.nav_module, R.id.nav_enrollment, R.id.nav_feedback, R.id.nav_question, R.id.nav_result, R.id.nav_contact)
+                R.id.nav_home,R.id.nav_join, R.id.nav_assignment, R.id.nav_class, R.id.nav_module, R.id.nav_enrollment, R.id.nav_feedback, R.id.nav_question, R.id.nav_result, R.id.nav_contact,R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -93,7 +94,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-        return false;
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_assignment:
+                Toast.makeText(MainActivity.this,"Assignment clicked", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return true;
     }
+
 }
