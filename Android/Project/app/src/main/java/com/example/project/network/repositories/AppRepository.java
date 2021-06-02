@@ -94,9 +94,15 @@ public class AppRepository {
     private MutableLiveData<String> addAssignmentFailureLiveData;
 
 
+    private MutableLiveData<String> updateAssignmentResponseLiveData;
+    private MutableLiveData<String> updateAssignmentFailureLiveData;
+
+    private MutableLiveData<String> deleteAssignmentResponseLiveData;
+    private MutableLiveData<String> deleteAssignmentFailureLiveData;
     private MutableLiveData<List<Assignment>> assignmentResponseLiveData;
 
     //region Class
+
     private MutableLiveData<List<ClassResponse>> classResponseLiveData;
     private MutableLiveData<List<ClassResponse>> trainerTraineeClassResponseLiveData;
 
@@ -144,6 +150,10 @@ public class AppRepository {
         assignmentResponseLiveData = new MutableLiveData<>();
         addAssignmentResponseLiveData = new MutableLiveData<>();
         addAssignmentFailureLiveData = new MutableLiveData<>();
+        updateAssignmentResponseLiveData = new MutableLiveData<>();
+        updateAssignmentFailureLiveData = new MutableLiveData<>();
+        deleteAssignmentResponseLiveData = new MutableLiveData<>();
+        deleteAssignmentFailureLiveData = new MutableLiveData<>();
 
         enrollmentResponseLiveData =new MutableLiveData<>();
 
@@ -530,6 +540,58 @@ public class AppRepository {
         return addAssignmentFailureLiveData;
     }
 
+    public void deleteAssignment(String token, AssignmentRequest assignmentRequest){
+        assignmentService.deleteAssignment(token, assignmentRequest).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    deleteAssignmentResponseLiveData.postValue(response.body());
+                }
+                else
+                    deleteAssignmentFailureLiveData.postValue("Fail to delete");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                deleteAssignmentFailureLiveData.postValue(t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<String> getDeleteAssignmentResponseLiveData() {
+        return deleteAssignmentResponseLiveData;
+    }
+
+    public MutableLiveData<String> getDeleteAssignmentFailureLiveData() {
+        return deleteAssignmentFailureLiveData;
+    }
+
+
+    public void updateAssignment(String token, AssignmentRequest assignmentRequest){
+        assignmentService.updateAssignment(token, assignmentRequest).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    updateAssignmentResponseLiveData.postValue(response.body());
+                } else {
+                    updateClassFailureLiveData.postValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                updateAssignmentResponseLiveData.postValue(t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<String> getUpdateAssignmentResponseLiveData() {
+        return updateAssignmentResponseLiveData;
+    }
+
+    public MutableLiveData<String> getUpdateAssignmentFailureLiveData() {
+        return updateAssignmentFailureLiveData;
+    }
+  
     //region Get Question
     public void questions(String token, int topicId) {
         questionService.getQuestions("Bearer " + token, topicId).enqueue(new Callback<List<Questions>>() {

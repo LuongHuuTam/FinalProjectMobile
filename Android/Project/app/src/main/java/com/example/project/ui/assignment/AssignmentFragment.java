@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,7 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project.R;
 import com.example.project.adapters.AssignmentAdapter;
 import com.example.project.models.Assignment;
+import com.example.project.models.AssignmentRequest;
+import com.example.project.models.ModuleResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -25,6 +29,8 @@ public class AssignmentFragment extends Fragment {
 
     private AssignmentViewModel assignmentViewModel;
     private AssignmentAdapter assignmentAdapter;
+    //get token
+    String token = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         assignmentViewModel = new ViewModelProvider(this).get(AssignmentViewModel.class);
@@ -37,8 +43,7 @@ public class AssignmentFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.addAssignmentFragment);
             }
         });
-        //get token
-        String token = "";
+
         if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
         }
@@ -48,12 +53,20 @@ public class AssignmentFragment extends Fragment {
         assignmentAdapter = new AssignmentAdapter();
 
         //
-        assignmentAdapter.setAssignmentListener(new AssignmentAdapter.AssignmentListener() {
+        assignmentAdapter.setAssignmentDelete(new AssignmentAdapter.AssignmentDelete() {
             @Override
-            public void onDelete(int classID, int moduleID, String trainerID) {
-                //classViewModel.deleteClass(id);
+            public void onDelete(int moduleID, int classID, String trainerID) {
+                if(token !=null){
+                    AssignmentRequest assignmentRequest = new AssignmentRequest();
+                    assignmentRequest.setModuleID(moduleID);
+                    assignmentRequest.setClassId(classID);
+                    assignmentRequest.setTrainerID(trainerID);
+                    assignmentViewModel.deleteAssignment(token, assignmentRequest);
+                }
+                Toast.makeText(root.getContext(), "Delete success", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         RecyclerView recyclerView = root.findViewById(R.id.rv_assignment_list);
         recyclerView.setAdapter(assignmentAdapter);
