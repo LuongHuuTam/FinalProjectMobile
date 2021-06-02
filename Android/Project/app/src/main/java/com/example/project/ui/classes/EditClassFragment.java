@@ -236,7 +236,6 @@ public class EditClassFragment extends Fragment {
         classRequest.setEndTime(endDate.getText().toString());
 
         if (token != null) {
-//            Do update
             classViewModel.updateClass(token, classResponse.getClassID(), classRequest);
         }
 

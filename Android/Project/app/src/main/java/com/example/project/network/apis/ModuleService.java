@@ -1,7 +1,7 @@
 package com.example.project.network.apis;
 
-import com.example.project.models.ModuleRequest;
-import com.example.project.models.ModuleResponse;
+import com.example.project.models.module_models.ModuleRequest;
+import com.example.project.models.module_models.ModuleResponse;
 
 import java.util.List;
 

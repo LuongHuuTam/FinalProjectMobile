@@ -1,5 +1,6 @@
 package com.example.project.ui.module;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -42,7 +43,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class AddModuleFragment extends Fragment {
+public class EditModuleFragment extends Fragment {
     ModuleViewModel moduleViewModel;
     FeedBackViewModel feedBackViewModel;
     View root;
@@ -64,13 +65,20 @@ public class AddModuleFragment extends Fragment {
     String token;
     Calendar dateTimePicker;
     AlertDialog.Builder alertDialogBuilder;
+    ModuleResponse moduleResponse;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_module_add_module, container, false);
+    @SuppressLint("SetTextI18n")
+    @Nullable
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        root = inflater.inflate(R.layout.fragment_module_edit_module, container, false);
         moduleViewModel = new ViewModelProvider(this).get(ModuleViewModel.class);
         feedBackViewModel = new ViewModelProvider(this).get(FeedBackViewModel.class);
 
+        if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
+            token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
+        }
         header = root.findViewById(R.id.module_header_title);
         ed_module_name = root.findViewById(R.id.add_module_name);
         ed_start_date = root.findViewById(R.id.add_start_day);
@@ -89,6 +97,25 @@ public class AddModuleFragment extends Fragment {
         btn_save = root.findViewById(R.id.btn_save);
         dateTimePicker = Calendar.getInstance();
         alertDialogBuilder = new AlertDialog.Builder(requireContext());
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            Gson gson = new Gson();
+            String moduleData = bundle.getString("MODULE_DATA", "");
+            Type token = new TypeToken<ModuleResponse>() {
+            }.getType();
+            moduleResponse = gson.fromJson(moduleData, token);
+            if (moduleResponse != null) {
+                header.setText("Edit Module");
+                ed_module_name.setText(moduleResponse.getName());
+                ed_admin_id.setText(moduleResponse.getAdminID());
+                ed_start_date.setText(moduleResponse.getStartTime().substring(0, 10));
+                ed_end_date.setText(moduleResponse.getEndTime().substring(0, 10));
+                ed_feedback_start_date.setText(moduleResponse.getFeedbackStartTime().substring(0, 10));
+                ed_feedback_end_date.setText(moduleResponse.getFeedbackEndTime().substring(0, 10));
+            }
+        }
+
 
         ed_module_name.addTextChangedListener(new TextWatcher() {
             @Override
@@ -187,14 +214,13 @@ public class AddModuleFragment extends Fragment {
             }
         });
 
-        if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
-            token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
-        }
-        moduleViewModel.getAddModuleResponseLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
+        //Check if User click edit
+
+        moduleViewModel.getUpdateModuleResponseLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                alertDialogBuilder.setTitle(s);
-                alertDialogBuilder.setMessage("Add Module Successful")
+                alertDialogBuilder.setTitle("Success");
+                alertDialogBuilder.setMessage("Update Module Successful")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -226,14 +252,14 @@ public class AddModuleFragment extends Fragment {
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
                 } else {
-                    addModule();
+                    updateModule();
                 }
             }
         });
         return root;
     }
 
-    public void addModule() {
+    public void updateModule() {
         ModuleRequest moduleRequest = new ModuleRequest();
         moduleRequest.setAdminID(ed_admin_id.getText().toString());
         moduleRequest.setName(ed_module_name.getText().toString());
@@ -244,7 +270,7 @@ public class AddModuleFragment extends Fragment {
         moduleRequest.setFeedbackEndTime(ed_feedback_end_date.getText().toString());
 
         if (token != null) {
-            moduleViewModel.addModule(token, moduleRequest);
+            moduleViewModel.updateModule(token, moduleResponse.getModuleID(), moduleRequest);
         }
     }
 

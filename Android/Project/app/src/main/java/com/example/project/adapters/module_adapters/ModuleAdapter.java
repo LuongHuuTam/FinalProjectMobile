@@ -1,4 +1,4 @@
-package com.example.project.adapters;
+package com.example.project.adapters.module_adapters;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -8,13 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.models.ModuleResponse;
+import com.example.project.models.module_models.ModuleResponse;
 
 import org.jetbrains.annotations.NotNull;
 

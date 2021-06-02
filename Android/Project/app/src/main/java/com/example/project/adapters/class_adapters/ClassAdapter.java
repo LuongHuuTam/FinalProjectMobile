@@ -95,7 +95,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                                     Toast.makeText(itemView.getContext(), "Delete success", Toast.LENGTH_SHORT).show();
                                 }
                             })
-                            .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     dialogInterface.cancel();

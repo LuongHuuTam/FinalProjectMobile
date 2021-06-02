@@ -3,8 +3,8 @@ package com.example.project.ui.module;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.project.models.ModuleRequest;
-import com.example.project.models.ModuleResponse;
+import com.example.project.models.module_models.ModuleRequest;
+import com.example.project.models.module_models.ModuleResponse;
 import com.example.project.network.repositories.AppRepository;
 
 import java.util.List;
