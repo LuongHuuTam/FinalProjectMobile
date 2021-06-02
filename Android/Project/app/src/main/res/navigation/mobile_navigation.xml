@@ -85,5 +85,10 @@
         android:name="com.example.project.ui.contact.ContactFragment"
         android:label="Class"
         tools:layout="@layout/fragment_contact" />
+    <fragment
+        android:id="@+id/addAssignmentFragment"
+        android:name="com.example.project.ui.assignment.AddAssignmentFragment"
+        android:label="fragment_add_assignment"
+        tools:layout="@layout/fragment_add_assignment" />
 
 </navigation>
