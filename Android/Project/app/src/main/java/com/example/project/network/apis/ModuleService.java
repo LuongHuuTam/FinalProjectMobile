@@ -30,4 +30,6 @@ public interface ModuleService {
     @DELETE("Modules/{moduleId}")
     Call<String> deleteModule(@Header("Authorization")String token, @Path(value = "moduleId",encoded = true) int moduleId);
 
+    @GET("Modules/{Role}/{Username}")
+    Call<List<ModuleResponse>> getModuleTraineeTrainer(@Header("Authorization")String token,@Path(value = "Role") String role,@Path(value = "Username") String username);
 }

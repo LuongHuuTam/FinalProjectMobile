@@ -59,6 +59,8 @@ public class AppRepository {
     private MutableLiveData<String> updateModuleResponseLiveData;
     private MutableLiveData<String> updateModuleFailureLiveData;
 
+    private MutableLiveData<List<ModuleResponse>> moduleTraineeTrainerLiveData;
+
     private MutableLiveData<List<QuestionResponse>> questionResponseLiveData;
 
     private MutableLiveData<List<Assignment>> assignmentResponseLiveData;
@@ -113,7 +115,7 @@ public class AppRepository {
         feedbackResponseLiveData=new MutableLiveData<>();
 
         doFeedbackResponseLiveData=new MutableLiveData<>();
-
+        moduleTraineeTrainerLiveData=new MutableLiveData<>();
         moduleResponseLiveData=new MutableLiveData<>();
         addModuleResponseLiveData = new MutableLiveData<>();
         addModuleFailureLiveData = new MutableLiveData<>();
@@ -522,6 +524,30 @@ public class AppRepository {
     public MutableLiveData<List<ModuleResponse>> getModuleResponseLiveData(){
         return moduleResponseLiveData;
     }
+
+    //Get module trainee or trainer
+    public void moduleTraineeTrainer(String token, String role, String username){
+        moduleService.getModuleTraineeTrainer(token,role,username).enqueue(new Callback<List<ModuleResponse>>() {
+            @Override
+            public void onResponse(Call<List<ModuleResponse>> call, Response<List<ModuleResponse>> response) {
+                if(response.body()!=null){
+                    moduleTraineeTrainerLiveData.postValue(response.body());
+                }
+                else {
+                    moduleTraineeTrainerLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ModuleResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+    public MutableLiveData<List<ModuleResponse>> getModuleTraineeTrainerResponseLiveData(){
+        return moduleTraineeTrainerLiveData;
+    }
+
 
     //Add module
     public void addModule(String token, ModuleRequest moduleRequest){
