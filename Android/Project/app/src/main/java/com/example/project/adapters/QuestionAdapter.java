@@ -1,17 +1,20 @@
 package com.example.project.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.models.QuestionResponse;
+import com.example.project.models.Questions;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,8 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
-    private List<QuestionResponse> questionResponseList = new ArrayList();
-    private QuestionListener questionListener;
+    private List<Questions> questionResponseList = new ArrayList();
+    private QuestionDelete questionDelete;
+    private QuestionEdit questionEdit;
+
 
     @NonNull
     @NotNull
@@ -48,6 +53,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         public TextView questionContent;
         public ImageButton buttonEdit;
         public ImageButton buttonDelete;
+        AlertDialog.Builder alertDialogBuilder;
 
         public QuestionViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -59,29 +65,72 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
             buttonEdit = itemView.findViewById(R.id.q_btn_edit);
             buttonDelete = itemView.findViewById(R.id.q_btn_delete);
+            alertDialogBuilder = new AlertDialog.Builder(itemView.getContext());
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(QuestionResponse questionResponse) {
+        public void bind(Questions questionResponse) {
             topicID.setText(Integer.toString(questionResponse.getTopicId()));
             topicName.setText(questionResponse.getTopicName());
             questionID.setText(Integer.toString(questionResponse.getQuestionID()));
             questionContent.setText(questionResponse.getContent());
 
-        }
+            buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(questionDelete!=null){
+                        alertDialogBuilder.setTitle("Delete");
+                        alertDialogBuilder.setMessage("Are you sure you want to delete this question")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        questionDelete.onDelete(questionResponse.getQuestionID());
+                                        Toast.makeText(itemView.getContext(), "Delete success", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+                        // create alert dialog
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
+                }
+            });
 
+            buttonEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(questionEdit!=null){
+                        questionEdit.onEdit(questionResponse.getQuestionID());
+                    }
+                }
+            });
+        }
     }
 
-    public void setQuestionResponseList(List<QuestionResponse> questionResponseList) {
+    public void setQuestionResponseList(List<Questions> questionResponseList) {
         this.questionResponseList = questionResponseList;
         notifyDataSetChanged();
     }
 
-    public interface QuestionListener{
+    public interface QuestionDelete{
         void onDelete(int id);
     }
 
-    public void setQuestionListener(QuestionAdapter.QuestionListener questionListener) {
-        this.questionListener = questionListener;
+    public void setQuestionDelete(QuestionDelete questionDelete) {
+        this.questionDelete = questionDelete;
+    }
+
+    public interface QuestionEdit{
+        void onEdit(int id);
+    }
+
+    public void setQuestionEdit(QuestionEdit questionEdit) {
+        this.questionEdit = questionEdit;
     }
 }

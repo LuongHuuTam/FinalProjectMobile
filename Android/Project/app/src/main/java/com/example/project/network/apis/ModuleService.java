@@ -1,7 +1,7 @@
 package com.example.project.network.apis;
 
-import com.example.project.models.ModuleRequest;
-import com.example.project.models.ModuleResponse;
+import com.example.project.models.module_models.ModuleRequest;
+import com.example.project.models.module_models.ModuleResponse;
 
 import java.util.List;
 
@@ -30,4 +30,6 @@ public interface ModuleService {
     @DELETE("Modules/{moduleId}")
     Call<String> deleteModule(@Header("Authorization")String token, @Path(value = "moduleId",encoded = true) int moduleId);
 
+    @GET("Modules/{Role}/{Username}")
+    Call<List<ModuleResponse>> getModuleTraineeTrainer(@Header("Authorization")String token,@Path(value = "Role") String role,@Path(value = "Username") String username);
 }

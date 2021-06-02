@@ -2,29 +2,25 @@ package com.example.project.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.models.ModuleResponse;
+import com.example.project.models.module_models.ModuleResponse;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ModuleViewHolder>{
+public class ModuleAdapterTraineeTrainer extends RecyclerView.Adapter<ModuleAdapterTraineeTrainer.ModuleViewHolder>{
     private List<ModuleResponse> moduleResponseList = new ArrayList();
-    private ModuleDelete moduleDelete;
-    private ModuleEdit moduleEdit;
 
     @NonNull
     @NotNull
@@ -86,60 +82,17 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ModuleView
             feedbackStartTime.setText(moduleResponse.getFeedbackStartTime().substring(0,16));
             feedbackEndTime.setText(moduleResponse.getFeedbackEndTime().substring(0,16));
 
-            buttonDelete.setOnClickListener(view -> {
-                if(moduleDelete!=null){
-                    alertDialogBuilder.setTitle("Delete");
-                    alertDialogBuilder.setMessage("Are you sure you want to delete this module")
-                            .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    moduleDelete.onDelete(moduleResponse.getModuleID());
 
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.cancel();
-                                }
-                            });
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
+            buttonEdit.setVisibility(View.GONE);
+            buttonDelete.setVisibility(View.GONE);
 
-// show it
-                    alertDialog.show();
-                }
-            });
-            buttonEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(moduleEdit!=null){
-                        moduleEdit.onEdit(moduleResponse.getModuleID());
-                    }
-                }
-            });
+
         }
     }
+
 
     public void setModuleResponseList(List<ModuleResponse> moduleResponseList) {
         this.moduleResponseList = moduleResponseList;
         notifyDataSetChanged();
-    }
-
-    public interface ModuleDelete{
-        void onDelete(int moduleId);
-    }
-
-    public void setModuleDelete(ModuleDelete moduleDelete) {
-        this.moduleDelete = moduleDelete;
-    }
-
-    public interface ModuleEdit{
-        void onEdit(int moduleId);
-    }
-
-    public void setModuleEdit(ModuleEdit moduleEdit) {
-        this.moduleEdit = moduleEdit;
     }
 }

@@ -3,7 +3,7 @@ package com.example.project.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class QuestionResponse {
+public class Questions {
     @SerializedName("topicId")
     @Expose
     private int topicId;

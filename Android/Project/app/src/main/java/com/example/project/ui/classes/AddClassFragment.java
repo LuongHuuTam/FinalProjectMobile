@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.project.R;
+import com.example.project.models.QuestionTopicResponse;
 import com.example.project.models.class_models.ClassRequest;
 
 import com.example.project.sharepreference.SharedPreferencesManager;
@@ -31,8 +32,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import java.util.List;
 import java.util.Locale;
 
 public class AddClassFragment extends Fragment {
@@ -51,9 +54,10 @@ public class AddClassFragment extends Fragment {
     Calendar dateTimePicker;
     AlertDialog.Builder alertDialogBuilder;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_class_add_class,container,false);
+        root = inflater.inflate(R.layout.fragment_class_add_class, container, false);
         classViewModel = new ViewModelProvider(this).get(ClassViewModel.class);
         classname = root.findViewById(R.id.add_class_name);
         capacity = root.findViewById(R.id.add_capacity);
@@ -117,10 +121,9 @@ public class AddClassFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(classname.getText().toString().equals("")){
+                if (classname.getText().toString().equals("")) {
                     layoutClassname.setError("Please enter class name and less than 255 characters");
-                }
-                else {
+                } else {
                     layoutClassname.setError(null);
                 }
             }
@@ -138,10 +141,9 @@ public class AddClassFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(capacity.getText().toString().equals("") || capacity.getText().toString().equals("0")){
+                if (capacity.getText().toString().equals("") || capacity.getText().toString().equals("0")) {
                     layoutCapacity.setError("Please enter capacity in integer and larger than 0");
-                }
-                else{
+                } else {
                     layoutCapacity.setError(null);
                 }
             }
@@ -152,7 +154,7 @@ public class AddClassFragment extends Fragment {
             }
         });
 
-        if(SharedPreferencesManager.getLoginResponseValue(requireContext())!=null){
+        if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {
             token = SharedPreferencesManager.getLoginResponseValue(requireContext()).getToken();
         }
 
@@ -174,16 +176,15 @@ public class AddClassFragment extends Fragment {
 
                 // show it
                 alertDialog.show();
-                Toast.makeText(getContext(), "Add class sucessfull !", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Add class successful !", Toast.LENGTH_LONG).show();
             }
         });
-
 
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TextUtils.isEmpty(classname.getText().toString()) || TextUtils.isEmpty(capacity.getText().toString()) || TextUtils.isEmpty(startDate.getText().toString()) || TextUtils.isEmpty(endDate.getText().toString())){
+                if (TextUtils.isEmpty(classname.getText().toString()) || TextUtils.isEmpty(capacity.getText().toString()) || TextUtils.isEmpty(startDate.getText().toString()) || TextUtils.isEmpty(endDate.getText().toString())) {
                     alertDialogBuilder.setTitle("Error");
                     alertDialogBuilder.setMessage("All field is required !")
                             .setCancelable(false)
@@ -197,8 +198,7 @@ public class AddClassFragment extends Fragment {
                     AlertDialog alertDialog = alertDialogBuilder.create();
 
                     alertDialog.show();
-                }
-                else{
+                } else {
                     addClass();
                 }
             }
@@ -212,17 +212,18 @@ public class AddClassFragment extends Fragment {
         classRequest.setCapacity(Integer.parseInt(capacity.getText().toString()));
         classRequest.setStartTime(startDate.getText().toString());
         classRequest.setEndTime(endDate.getText().toString());
-
-        if(token!=null) {
+        if (token != null) {
             classViewModel.addClasses(token, classRequest);
         }
 
     }
+
     private void updateLabelStartDay() {
         String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         startDate.setText(sdf.format(dateTimePicker.getTime()));
     }
+
     private void updateLabelEndDay() {
         String myFormat = "MM/dd/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);

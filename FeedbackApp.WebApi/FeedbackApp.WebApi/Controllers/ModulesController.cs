@@ -44,6 +44,17 @@ namespace FeedbackApp.WebApi.Controllers
         {
             return Ok(await _moduleService.GetById(moduleId));
         }
+        [HttpGet("trainer/{trainerId}")]
+        public async Task<IActionResult> GetModuleOfTrainer(string trainerId)
+        {
+            return Ok(await _moduleService.GetModuleTrainer(trainerId));
+        }
+
+        [HttpGet("trainee/{traineeId}")]
+        public async Task<IActionResult> GetModuleOfTrainee(string traineeId)
+        {
+            return Ok(await _moduleService.GetModuleTrainee(traineeId));
+        }
 
         [HttpDelete("{moduleId}")]
         public async Task<IActionResult> Delete(int moduleId)
