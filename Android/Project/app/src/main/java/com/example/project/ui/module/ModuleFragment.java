@@ -15,9 +15,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.adapters.ModuleAdapter;
 import com.example.project.adapters.ModuleAdapterTraineeTrainer;
-import com.example.project.models.ModuleResponse;
+import com.example.project.adapters.module_adapters.ModuleAdapter;
+import com.example.project.models.module_models.ModuleResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
 import com.google.gson.Gson;
 
@@ -71,12 +71,11 @@ public class ModuleFragment extends Fragment {
                         String moduleResponseData = gson.toJson(moduleResponse);
                         Bundle bundle = new Bundle();
                         bundle.putString("MODULE_DATA", moduleResponseData);
-                        Navigation.findNavController(root).navigate(R.id.action_nav_module_to_module_add_module, bundle);
+                        Navigation.findNavController(root).navigate(R.id.action_nav_module_to_module_update_module, bundle);
                     }
                 });
                 if(finalToken != null){
                     moduleViewModel.getModuleInfo(finalToken,moduleId);
-
                 }
             }
         });

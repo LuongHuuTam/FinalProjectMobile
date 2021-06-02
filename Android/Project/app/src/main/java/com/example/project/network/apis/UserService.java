@@ -1,6 +1,5 @@
 package com.example.project.network.apis;
 
-import com.example.project.models.ModuleResponse;
 import com.example.project.models.TrainerResponse;
 
 import java.util.List;
