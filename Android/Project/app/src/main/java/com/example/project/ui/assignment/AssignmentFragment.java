@@ -19,7 +19,7 @@ import com.example.project.R;
 import com.example.project.adapters.AssignmentAdapter;
 import com.example.project.models.Assignment;
 import com.example.project.models.AssignmentRequest;
-import com.example.project.models.ModuleResponse;
+import com.example.project.models.module_models.ModuleResponse;
 import com.example.project.sharepreference.SharedPreferencesManager;
 import com.google.gson.Gson;
 
