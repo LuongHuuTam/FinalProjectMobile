@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.project.models.Assignment;
+import com.example.project.models.AssignmentRequest;
 import com.example.project.models.ModuleRequest;
+import com.example.project.models.TrainerResponse;
 import com.example.project.models.class_models.ClassTraineeResponse;
 import com.example.project.models.class_models.ClassRequest;
 import com.example.project.models.class_models.ClassResponse;
@@ -24,6 +26,7 @@ import com.example.project.network.apis.FeedbackService;
 import com.example.project.network.apis.LoginService;
 import com.example.project.network.apis.ModuleService;
 import com.example.project.network.apis.QuestionService;
+import com.example.project.network.apis.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AppRepository {
@@ -44,6 +48,7 @@ public class AppRepository {
     private QuestionService questionService;
     private FeedbackService feedbackService;
     private ModuleService moduleService;
+    private UserService userService;
 
     private MutableLiveData<List<ModuleResponse>> moduleResponseLiveData;
 
@@ -62,6 +67,9 @@ public class AppRepository {
     private MutableLiveData<List<QuestionResponse>> questionResponseLiveData;
 
     private MutableLiveData<List<Assignment>> assignmentResponseLiveData;
+
+    private MutableLiveData<String> addAssignmentResponseLiveData;
+    private MutableLiveData<String> addAssignmentFailureLiveData;
 
     private MutableLiveData<List<ClassResponse>> classResponseLiveData;
     private MutableLiveData<List<ClassResponse>> trainerTraineeClassResponseLiveData;
@@ -87,7 +95,7 @@ public class AppRepository {
     private MutableLiveData<List<FeedbackResponse>> feedbackResponseLiveData;
     private MutableLiveData<List<DoFeedbackResponse>> doFeedbackResponseLiveData;
 
-
+    private MutableLiveData<List<TrainerResponse>> trainerResponseLiveData;
     public AppRepository() {
         loginResponseLiveData = new MutableLiveData<>();
         loginFailureLiveData = new MutableLiveData<>();
@@ -105,6 +113,8 @@ public class AppRepository {
         getClassDetailFailureLiveData = new MutableLiveData<>();
 
         assignmentResponseLiveData = new MutableLiveData<>();
+        addAssignmentResponseLiveData = new MutableLiveData<>();
+        addAssignmentFailureLiveData = new MutableLiveData<>();
 
         enrollmentResponseLiveData =new MutableLiveData<>();
 
@@ -123,6 +133,8 @@ public class AppRepository {
         getModuleInfoFailureLiveData = new MutableLiveData<>();
         updateModuleResponseLiveData = new MutableLiveData<>();
         updateModuleFailureLiveData = new MutableLiveData<>();
+
+        trainerResponseLiveData = new MutableLiveData<>();
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -176,6 +188,13 @@ public class AppRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ModuleService.class);
+
+        userService = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(UserService.class);
     }
 
     //Login
@@ -428,6 +447,30 @@ public class AppRepository {
     public MutableLiveData<List<Assignment>> getAssignmentLiveData(){
         return assignmentResponseLiveData;
     }
+    public void addAssignment(String token, AssignmentRequest assignmentRequest){
+        assignmentService.addAssignment(token,assignmentRequest).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    addAssignmentResponseLiveData.postValue(response.body());
+                }else
+                    addAssignmentFailureLiveData.postValue("Fail");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                addAssignmentFailureLiveData.postValue(t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<String> getAddAssignmentResponseLiveData() {
+        return addAssignmentResponseLiveData;
+    }
+
+    public MutableLiveData<String> getAddAssignmentFailureLiveData() {
+        return addAssignmentFailureLiveData;
+    }
 
     //Get Question
     public void  questions(String token,int topicId){
@@ -624,6 +667,30 @@ public class AppRepository {
 
     public MutableLiveData<String> getUpdateModuleFailureLiveData() {
         return updateModuleFailureLiveData;
+    }
+
+    //Get module
+    public void trainer(String token){
+        userService.getTrainer(token).enqueue(new Callback<List<TrainerResponse>>() {
+            @Override
+            public void onResponse(Call<List<TrainerResponse>> call, Response<List<TrainerResponse>> response) {
+                if(response.body()!=null){
+                    trainerResponseLiveData.postValue(response.body());
+                }
+                else {
+                    trainerResponseLiveData.postValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TrainerResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public MutableLiveData<List<TrainerResponse>> getTrainerResponseLiveData(){
+        return trainerResponseLiveData;
     }
 }
 
