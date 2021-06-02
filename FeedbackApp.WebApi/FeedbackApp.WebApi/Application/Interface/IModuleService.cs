@@ -14,5 +14,8 @@ namespace FeedbackApp.WebApi.Application.Interface
         Task<bool> EditModule(int moduleId, ModuleVm request);
         Task<bool> AddModule(ModuleVm moduleVm);
         Task<bool> DeleteModule(int moduleId);
+
+        Task<List<ModuleVm>> GetModuleTrainer(string trainerId);
+        Task<List<ModuleVm>> GetModuleTrainee(string traineeId);
     }
 }

@@ -5,11 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
@@ -27,7 +29,14 @@ public class AssignmentFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         assignmentViewModel = new ViewModelProvider(this).get(AssignmentViewModel.class);
         View root = inflater.inflate(R.layout.fragment_assignment, container, false);
+        ImageButton btnAdd = root.findViewById(R.id.btn_add);
 
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.addAssignmentFragment);
+            }
+        });
         //get token
         String token = "";
         if (SharedPreferencesManager.getLoginResponseValue(requireContext()) != null) {

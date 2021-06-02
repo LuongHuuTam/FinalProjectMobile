@@ -26,6 +26,8 @@ public class ModuleViewModel extends ViewModel {
     private LiveData<String> updateModuleResponseLiveData;
     private LiveData<String> updateModuleFailureLiveData;
 
+    private LiveData<List<ModuleResponse>> moduleTraineeTrainerResponseLiveData;
+
     public ModuleViewModel() {
         super();
         moduleResponseLiveData = appRepository.getModuleResponseLiveData();
@@ -41,6 +43,7 @@ public class ModuleViewModel extends ViewModel {
 
         updateModuleResponseLiveData = appRepository.getUpdateModuleResponseLiveData();
         updateModuleFailureLiveData = appRepository.getUpdateModuleFailureLiveData();
+        moduleTraineeTrainerResponseLiveData=appRepository.getModuleTraineeTrainerResponseLiveData();
     }
 
     public LiveData<List<ModuleResponse>> getModuleResponseLiveData() {
@@ -75,6 +78,10 @@ public class ModuleViewModel extends ViewModel {
         return updateModuleResponseLiveData;
     }
 
+    public LiveData<List<ModuleResponse>> getModuleTraineeTrainerResponseLiveData() {
+        return moduleTraineeTrainerResponseLiveData;
+    }
+
     public LiveData<String> getUpdateModuleFailureLiveData() {
         return updateModuleFailureLiveData;
     }
@@ -97,5 +104,8 @@ public class ModuleViewModel extends ViewModel {
 
     public void updateModule(String token, int moduleId, ModuleRequest moduleRequest){
         appRepository.updateModule(token,moduleId,moduleRequest);
+    }
+    public void getModuleTraineeTrainer(String token, String role,String username){
+        appRepository.moduleTraineeTrainer(token,role,username);
     }
 }
