@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import com.example.project.models.ModuleResponse;
+import com.example.project.models.module_models.ModuleResponse;
 
 import org.jetbrains.annotations.NotNull;
 

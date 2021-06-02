@@ -208,6 +208,24 @@ public class AddModuleFragment extends Fragment {
                 alertDialog.show();
             }
         });
+        moduleViewModel.getAddModuleFailureLiveData().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                alertDialogBuilder.setTitle(s);
+                alertDialogBuilder.setMessage("Add Module Fail")
+                        .setCancelable(false)
+                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // show it
+                alertDialog.show();
+            }
+        });
 
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
